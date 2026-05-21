@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { addDays, differenceInCalendarDays } from "date-fns";
 
 import { DatePickerField } from "./DatePickerField";
 import { DestinationField } from "./DestinationField";
@@ -51,6 +52,44 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
 
   const isHeader = variant === "header";
 
+  function handleDateRangeChange(range?: DateRange) {
+    if (!range?.from) {
+      setDateRange(undefined);
+      return;
+    }
+
+    if (!range.to) {
+      setDateRange(range);
+      return;
+    }
+
+    const nights = differenceInCalendarDays(range.to, range.from);
+
+    if (nights <= 0) {
+      setDateRange({
+        from: range.from,
+        to: addDays(range.from, 1),
+      });
+
+      return;
+    }
+
+    if (nights > 30) {
+      setDateRange({
+        from: range.from,
+        to: addDays(range.from, 30),
+      });
+
+      return;
+    }
+
+    setDateRange(range);
+  }
+
+  const maxCheckoutDate = dateRange?.from
+    ? addDays(dateRange.from, 30)
+    : undefined;
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -91,13 +130,14 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
           variant={variant}
           dateRange={dateRange}
           isOpen={openedDropdown === "calendar"}
+          maxCheckoutDate={maxCheckoutDate}
           onToggle={() =>
             setOpenedDropdown((current) =>
               current === "calendar" ? null : "calendar",
             )
           }
           onClose={() => setOpenedDropdown(null)}
-          onChange={setDateRange}
+          onChange={handleDateRangeChange}
         />
 
         <GuestsField
@@ -121,7 +161,7 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
           type="submit"
           className={
             isHeader
-              ? "rounded-full bg-primary px-4 py-2 text-sm font-bold text-white"
+              ? "rounded-full bg-primary px-4 py-2 text-sm font-bold text-white cursor-pointer"
               : "w-full cursor-pointer rounded-xl bg-primary px-6 py-4 text-lg font-bold text-white md:rounded-lg md:text-xl"
           }
         >

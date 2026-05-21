@@ -22,9 +22,14 @@ export function Counter({
       <div className="grid w-40 grid-cols-3 items-center rounded-lg border">
         <button
           type="button"
-          onClick={onDecrease}
           disabled={value <= min}
-          className="flex h-12 items-center justify-center text-gray-300 disabled:cursor-not-allowed cursor-pointer"
+          onClick={onDecrease}
+          className={`
+    flex h-9 w-9 items-center justify-center rounded-full text-xl transition ${
+      value <= min
+        ? "cursor-not-allowed border-gray-300 text-gray-300"
+        : "text-primary cursor-pointer"
+    }`}
         >
           <Minus size={18} />
         </button>

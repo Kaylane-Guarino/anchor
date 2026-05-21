@@ -1,5 +1,6 @@
 import "react-day-picker/dist/style.css";
 
+import { useEffect, useRef } from "react";
 import { CalendarDays } from "lucide-react";
 import { ptBR } from "date-fns/locale";
 import { DateRange, DayPicker } from "react-day-picker";
@@ -9,6 +10,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type DatePickerFieldProps = {
   dateRange?: DateRange;
+  maxCheckoutDate?: Date;
   isOpen: boolean;
   onToggle: () => void;
   onClose: () => void;
@@ -18,12 +20,15 @@ type DatePickerFieldProps = {
 
 export function DatePickerField({
   dateRange,
+  maxCheckoutDate,
   isOpen,
   onToggle,
   onClose,
   onChange,
   variant = "hero",
 }: DatePickerFieldProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
   const isHeader = variant === "header";
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const numberOfMonths = isDesktop ? 2 : 1;
@@ -35,15 +40,33 @@ export function DatePickerField({
         )}`
       : "Selecione as datas";
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
+
+      if (!wrapperRef.current?.contains(target)) {
+        onClose();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div className="relative min-w-0">
+    <div ref={wrapperRef} className="relative min-w-0">
       <button
         type="button"
         onClick={onToggle}
         className={
           isHeader
-            ? "flex w-full min-w-0 items-center gap-2 bg-white px-3 py-2 text-left text-sm font-semibold text-gray-500"
-            : "flex w-full min-w-0 items-center gap-3 border-t bg-white px-5 py-4 text-left font-semibold text-gray-500 md:border-l md:border-t-0"
+            ? "flex w-full min-w-0 items-center gap-2 bg-white px-3 py-2 text-left text-sm font-semibold text-gray-500 cursor-pointer"
+            : "flex w-full min-w-0 items-center gap-3 border-t bg-white px-5 py-4 text-left font-semibold text-gray-500 cursor-pointer md:border-l md:border-t-0"
         }
       >
         <CalendarDays
@@ -51,13 +74,7 @@ export function DatePickerField({
           size={isHeader ? 18 : 22}
         />
 
-        <span
-          className={
-            isHeader
-              ? "block min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
-              : "block min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
-          }
-        >
+        <span className="block min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
           {selectedDateLabel}
         </span>
       </button>
@@ -76,48 +93,47 @@ export function DatePickerField({
             onSelect={onChange}
             numberOfMonths={numberOfMonths}
             locale={ptBR}
-            disabled={{ before: new Date() }}
-            className="
-  text-sm
-  [&_.rdp-months]:flex-col
-  md:[&_.rdp-months]:flex-row
-"
+            disabled={[
+              { before: new Date() },
+
+              ...(maxCheckoutDate ? [{ after: maxCheckoutDate }] : []),
+            ]}
+            className="text-sm [&_.rdp-months]:flex-col md:[&_.rdp-months]:flex-row"
             classNames={{
-              months: `
-  flex flex-col gap-4
-  md:flex-row md:gap-8
-`,
+              months: "flex flex-col gap-4 md:flex-row md:gap-8",
+              month: "w-full md:w-[250px]",
 
-              month: `
-  w-full
-  md:w-[250px]
-`,
               month_caption:
-                "mb-3 flex items-center justify-center font-bold text-foreground",
+                "mb-3 flex items-center justify-center px-10 font-bold text-foreground",
 
-              nav: "absolute right-3 top-3 flex gap-2",
+              nav: "absolute left-3 right-3 -top-1 flex items-center  justify-between md:left-auto md:right-3 md:justify-end md:gap-2",
+
               button_previous:
-                "flex h-8 w-8 items-center justify-center rounded-md text-primary",
+                "flex h-8 w-8 items-center justify-center rounded-md text-primary hover:bg-blue-50 cursor-pointer",
+
               button_next:
-                "flex h-8 w-8 items-center justify-center rounded-md text-primary",
+                "flex h-8 w-8 items-center justify-center rounded-md text-primary hover:bg-blue-50 cursor-pointer",
 
               weekdays: "mb-2 flex",
+
               weekday: "flex-1 text-center text-xs font-medium text-gray-400",
+
               week: "flex",
 
               day: "h-9 flex-1 p-0 text-center text-sm text-foreground",
-              day_button: "mx-auto h-9 w-9 rounded-none cursor-pointer",
+
+              day_button: "mx-auto h-9 w-9 cursor-pointer rounded-none",
 
               selected: "",
 
               range_start:
-                "bg-transparent text-white [&>button]:bg-primary [&>button]:text-white [&>button]:rounded-full",
+                "bg-transparent text-white [&>button]:rounded-full [&>button]:bg-primary [&>button]:text-white",
 
               range_end:
-                "bg-transparent text-white [&>button]:bg-primary [&>button]:text-white [&>button]:rounded-full",
+                "bg-transparent text-white [&>button]:rounded-full [&>button]:bg-primary [&>button]:text-white",
 
               range_middle:
-                "bg-gray-100 text-foreground [&>button]:bg-gray-100 [&>button]:text-foreground [&>button]:rounded-none",
+                "bg-gray-100 text-foreground [&>button]:rounded-none [&>button]:bg-gray-100 [&>button]:text-foreground",
 
               today: "font-bold text-primary",
               outside: "text-gray-300",
@@ -125,7 +141,14 @@ export function DatePickerField({
             }}
           />
 
-          <div className="mt-3 flex justify-end border-t pt-3">
+          <div className="mt-3 flex justify-between border-t pt-3">
+            <button
+              type="button"
+              onClick={() => onChange(undefined)}
+              className="cursor-pointer font-semibold text-gray-500"
+            >
+              Redefinir
+            </button>
             <button
               type="button"
               onClick={onClose}

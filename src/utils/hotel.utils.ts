@@ -58,3 +58,15 @@ export function getHotelDistances(destination: string) {
     beachDistance: cityHasBeach ? "450 m da praia" : null,
   };
 }
+
+export const suggestionTypeLabels: Record<string, string> = {
+  city: "Cidade",
+  beach: "Praia",
+  island: "Ilha",
+  nature: "Natureza",
+  hotel: "Hotel",
+};
+
+export function getSuggestionTypeLabel(type: string) {
+  return suggestionTypeLabels[type] ?? type;
+}
