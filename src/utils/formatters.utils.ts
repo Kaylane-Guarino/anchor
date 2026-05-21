@@ -33,3 +33,30 @@ export const formatDate = (
     ...options,
   }).format(parsedDate);
 };
+
+// Formata número de telefone para padrão brasileiro
+export const formatPhone = (value: string): string => {
+  const onlyNumbers = value.replace(/\D/g, "");
+
+  if (onlyNumbers.length <= 10) {
+    return onlyNumbers.replace(
+      /(\d{2})(\d{4})(\d{0,4})/,
+      "($1) $2-$3"
+    );
+  }
+
+  return onlyNumbers.replace(
+    /(\d{2})(\d{5})(\d{0,4})/,
+    "($1) $2-$3"
+  );
+};
+
+// Formata CPF para padrão brasileiro
+export const formatCPF = (value: string): string => {
+  const onlyNumbers = value.replace(/\D/g, "").slice(0, 11);
+
+  return onlyNumbers.replace(
+    /(\d{3})(\d{3})(\d{3})(\d{0,2})/,
+    "$1.$2.$3-$4"
+  );
+};
