@@ -156,19 +156,17 @@ export function CheckoutForm() {
               CPF
             </label>
 
-           <input
-  {...register("document")}
-  value={document}
-  onChange={(e) =>
-    setValue(
-      "document",
-      formatCPF(e.target.value),
-      { shouldValidate: true }
-    )
-  }
-  placeholder="000.000.000-00"
-  className="w-full rounded-xl border px-4 py-3 outline-none text-secondary-text"
-/>
+            <input
+              {...register("document")}
+              value={document}
+              onChange={(e) =>
+                setValue("document", formatCPF(e.target.value), {
+                  shouldValidate: true,
+                })
+              }
+              placeholder="000.000.000-00"
+              className="w-full rounded-xl border px-4 py-3 outline-none text-secondary-text"
+            />
 
             {errors.document && (
               <p className="mt-1 text-sm text-red-600">
@@ -219,6 +217,7 @@ export function CheckoutForm() {
             src={selectedHotel.thumbnail}
             alt={selectedHotel.name}
             fill
+            sizes="350px"
             className="object-cover"
           />
         </div>

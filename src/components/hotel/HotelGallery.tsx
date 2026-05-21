@@ -37,6 +37,7 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
             src={images[0]}
             alt={hotelName}
             fill
+  sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
             priority
           />
@@ -54,6 +55,7 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
                 src={image}
                 alt={`${hotelName} imagem ${index + 2}`}
                 fill
+  sizes="220px"
                 className="object-cover"
               />
             </button>
@@ -136,6 +138,7 @@ function HotelGalleryModal({
                       src={images[index % images.length]}
                       alt={category}
                       fill
+  sizes="220px"
                       className="object-cover"
                     />
 

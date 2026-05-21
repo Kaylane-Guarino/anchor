@@ -1,5 +1,5 @@
-import { SearchForm } from "@/components/search/search-form/SearchForm";
 import Image from "next/image";
+import { Suspense } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -10,6 +10,8 @@ import {
 import { getHotels } from "@/services/api";
 import Link from "next/dist/client/link";
 import { formatBRL } from "@/utils/formatters.utils";
+
+import { SearchForm } from "@/components/search/search-form/SearchForm";
 
 const destinations = [
   {
@@ -81,7 +83,9 @@ export default async function Home() {
               Busque pelos melhores hoteis e compare preços
             </p>
           </div>
-          <SearchForm variant="hero" />
+          <Suspense fallback={null}>
+            <SearchForm variant="hero" />
+          </Suspense>
         </div>
       </main>
       <main className="w-full max-w-6xl">
@@ -90,22 +94,30 @@ export default async function Home() {
             Destinos mais procurados
           </h1>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link href={getDefaultSearchUrl(destinations[0].name)} className="relative w-full h-64 cursor-pointer">
+            <Link
+              href={getDefaultSearchUrl(destinations[0].name)}
+              className="relative w-full h-64 cursor-pointer"
+            >
               <Image
                 src={destinations[0].imageUrl}
                 alt={destinations[0].name}
                 fill
+                sizes="(max-width:768px) 100vw, 33vw"
                 className="object-cover rounded-lg bg-gray-200"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
                 {destinations[0].name}
               </div>
             </Link>
-            <Link href={getDefaultSearchUrl(destinations[1].name)} className="relative w-full h-64 cursor-pointer">
+            <Link
+              href={getDefaultSearchUrl(destinations[1].name)}
+              className="relative w-full h-64 cursor-pointer"
+            >
               <Image
                 src={destinations[1].imageUrl}
                 alt={destinations[1].name}
                 fill
+                sizes="(max-width:768px) 100vw, 33vw"
                 className="object-cover rounded-lg bg-gray-200"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
@@ -114,33 +126,45 @@ export default async function Home() {
             </Link>
           </div>
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mt-20">
-            <Link href={getDefaultSearchUrl(destinations[2].name)} className="relative w-full h-64 cursor-pointer">
+            <Link
+              href={getDefaultSearchUrl(destinations[2].name)}
+              className="relative w-full h-64 cursor-pointer"
+            >
               <Image
                 src={destinations[2].imageUrl}
                 alt={destinations[2].name}
                 fill
+                sizes="(max-width:768px) 100vw, 33vw"
                 className="object-cover rounded-lg bg-gray-200"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
                 {destinations[2].name}
               </div>
             </Link>
-            <Link href={getDefaultSearchUrl(destinations[3].name)} className="relative w-full h-64 cursor-pointer">
+            <Link
+              href={getDefaultSearchUrl(destinations[3].name)}
+              className="relative w-full h-64 cursor-pointer"
+            >
               <Image
                 src={destinations[3].imageUrl}
                 alt={destinations[3].name}
                 fill
+                sizes="(max-width:768px) 100vw, 33vw"
                 className="object-cover rounded-lg bg-gray-200"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
                 {destinations[3].name}
               </div>
             </Link>
-            <Link href={getDefaultSearchUrl(destinations[4].name)} className="relative w-full h-64 cursor-pointer">
+            <Link
+              href={getDefaultSearchUrl(destinations[4].name)}
+              className="relative w-full h-64 cursor-pointer"
+            >
               <Image
                 src={destinations[4].imageUrl}
                 alt={destinations[4].name}
                 fill
+                sizes="(max-width:768px) 100vw, 33vw"
                 className="object-cover rounded-lg bg-gray-200"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
@@ -170,6 +194,7 @@ export default async function Home() {
                         src={hotel.thumbnail}
                         alt={hotel.name}
                         fill
+                        sizes="(max-width:768px) 100vw, 25vw"
                         className="object-cover"
                       />
                     </div>

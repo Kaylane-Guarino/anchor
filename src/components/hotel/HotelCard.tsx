@@ -4,10 +4,7 @@ import { MapPin } from "lucide-react";
 
 import { Hotel } from "@/types/hotel";
 import { formatBRL } from "@/utils/formatters.utils";
-import {
-  getAmenityLabel,
-  getHotelDistances,
-} from "@/utils/hotel.utils";
+import { getAmenityLabel, getHotelDistances } from "@/utils/hotel.utils";
 
 type HotelCardProps = {
   hotel: Hotel;
@@ -15,7 +12,7 @@ type HotelCardProps = {
 
 export function HotelCard({ hotel }: HotelCardProps) {
   const { centerDistance, beachDistance } = getHotelDistances(
-    hotel.destination
+    hotel.destination,
   );
 
   return (
@@ -27,6 +24,7 @@ export function HotelCard({ hotel }: HotelCardProps) {
             alt={hotel.name}
             fill
             priority={false}
+            sizes="(max-width: 768px) 100vw, 320px"
             className="object-cover"
           />
         </div>
@@ -59,17 +57,13 @@ export function HotelCard({ hotel }: HotelCardProps) {
               </div>
 
               <div className="rounded-lg bg-primary px-3 py-2 text-center text-white">
-                <span className="block text-lg font-bold">
-                  {hotel.rating}
-                </span>
+                <span className="block text-lg font-bold">{hotel.rating}</span>
 
                 <span className="text-xs">Excelente</span>
               </div>
             </div>
 
-            <p className="line-clamp-3 text-gray-600">
-              {hotel.description}
-            </p>
+            <p className="line-clamp-3 text-gray-600">{hotel.description}</p>
 
             <div className="mt-4 flex flex-wrap gap-2">
               {hotel.amenities.slice(0, 5).map((amenity) => (

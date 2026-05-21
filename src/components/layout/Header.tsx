@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -20,7 +21,9 @@ export function Header() {
 
         {isSearchPage && (
           <div className="hidden flex-1 justify-center md:flex">
-            <SearchForm variant="header" />
+            <Suspense fallback={null}>
+              <SearchForm variant="header" />
+            </Suspense>
           </div>
         )}
       </div>

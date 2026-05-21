@@ -14,8 +14,7 @@ function getDefaultSearchUrl(destination: string) {
   const checkOut = new Date(checkIn);
   checkOut.setDate(checkIn.getDate() + 3);
 
-  const formatDate = (date: Date) =>
-    date.toISOString().split("T")[0];
+  const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
   const params = new URLSearchParams({
     destination,
@@ -39,31 +38,26 @@ const popularDestinations = [
 
 export async function Footer() {
   const hotelsResponse = await getHotels({
-  sort: "rating",
-  order: "desc",
-  limit: "5",
-});
+    sort: "rating",
+    order: "desc",
+    limit: "5",
+  });
 
-const popularHotels = hotelsResponse.hotels;
+  const popularHotels = hotelsResponse.hotels;
 
   return (
     <footer className="mt-20 bg-white border-t">
       <div className="mx-auto grid max-w-6xl gap-12 px-6 py-14 md:grid-cols-[1.2fr_1fr_1fr]">
-        
         {/* Logo */}
 
         <div>
           <Link href="/">
-            <Image
-              alt="Anchor"
-              src={Logo}
-              width={200}
-            />
+            <Image alt="Anchor" src={Logo} width={200} sizes="200px" />
           </Link>
 
           <p className="mt-5 max-w-sm text-sm leading-6 text-gray-500">
-            Descubra hotéis incríveis, encontre destinos
-            populares e planeje sua próxima viagem.
+            Descubra hotéis incríveis, encontre destinos populares e planeje sua
+            próxima viagem.
           </p>
         </div>
 
@@ -98,10 +92,7 @@ const popularHotels = hotelsResponse.hotels;
           <ul className="space-y-3">
             {popularHotels.map((hotel) => (
               <li key={hotel.id}>
-                <Link
-                  href={`/hotel/${hotel.id}`}
-                  className=" gap-2 transition"
-                >
+                <Link href={`/hotel/${hotel.id}`} className=" gap-2 transition">
                   <span className="line-clamp-1 text-gray-500 hover:text-primary">
                     {hotel.name}
                   </span>
