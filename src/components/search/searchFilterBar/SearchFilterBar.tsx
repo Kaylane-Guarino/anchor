@@ -40,6 +40,7 @@ type FilterValues = {
   order?: "asc" | "desc";
   amenity?: string[];
   propertyType?: string;
+  rating?: string;
 };
 
 function getSortOrder(value: string | null): "asc" | "desc" | undefined {
@@ -58,9 +59,17 @@ export function SearchFilterBar() {
 
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isApplyingFilters, setIsApplyingFilters] = useState(false);
 
   const selectedAmenities = searchParams.getAll("amenity");
-  const activeFiltersCount = selectedAmenities.length;
+  const selectedPropertyType = searchParams.get("propertyType") ?? "";
+  const selectedRating = searchParams.get("rating") ?? "";
+
+  const activeFiltersCount =
+    selectedAmenities.length +
+    (selectedPropertyType ? 1 : 0) +
+    (selectedRating ? 1 : 0);
 
   function applyFilters(values: FilterValues) {
     const params = updateSearchParams(searchParams, values);
@@ -124,12 +133,11 @@ export function SearchFilterBar() {
     <div>
       <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-4">
         <div className="flex shrink-0 items-center gap-2">
-          <Popover>
+          <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
             <PopoverTrigger asChild>
               <button className="flex cursor-pointer items-center gap-2 rounded-xl border border-gray-900 px-4 py-2 font-semibold text-foreground">
                 <SlidersHorizontal size={16} />
                 Filtros
-
                 {activeFiltersCount > 0 && (
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-sm text-white">
                     {activeFiltersCount}
@@ -138,16 +146,39 @@ export function SearchFilterBar() {
               </button>
             </PopoverTrigger>
 
-            <PopoverContent align="start" className="w-auto border-none p-0 shadow-none">
+            <PopoverContent
+              align="start"
+              className="w-auto border-none p-0 shadow-none"
+            >
               <FiltersPopover
                 initialAmenities={selectedAmenities}
-                initialPropertyType={searchParams.get("propertyType") ?? ""}
-                onApply={(values) =>
+                initialPropertyType={selectedPropertyType}
+                initialRating={selectedRating}
+                isApplying={isApplyingFilters}
+                onApply={(values) => {
+                  setIsApplyingFilters(true);
+
                   applyFilters({
                     amenity: values.amenity,
                     propertyType: values.propertyType,
-                  })
-                }
+                    rating: values.rating,
+                  });
+
+                  setIsApplyingFilters(false);
+                  setIsFiltersOpen(false);
+                }}
+                onReset={() => {
+                  setIsApplyingFilters(true);
+
+                  applyFilters({
+                    amenity: [],
+                    propertyType: "",
+                    rating: "",
+                  });
+
+                  setIsApplyingFilters(false);
+                  setIsFiltersOpen(false);
+                }}
               />
             </PopoverContent>
           </Popover>
@@ -160,7 +191,10 @@ export function SearchFilterBar() {
               </button>
             </PopoverTrigger>
 
-            <PopoverContent align="start" className="w-auto border-none p-0 shadow-none">
+            <PopoverContent
+              align="start"
+              className="w-auto border-none p-0 shadow-none"
+            >
               <SortPopover
                 initialSort={searchParams.get("sort") ?? ""}
                 initialOrder={getSortOrder(searchParams.get("order"))}
@@ -182,7 +216,10 @@ export function SearchFilterBar() {
               </button>
             </PopoverTrigger>
 
-            <PopoverContent align="start" className="w-auto border-none p-0 shadow-none">
+            <PopoverContent
+              align="start"
+              className="w-auto border-none p-0 shadow-none"
+            >
               <PricePopover
                 initialMinPrice={searchParams.get("minPrice") ?? ""}
                 initialMaxPrice={searchParams.get("maxPrice") ?? ""}
@@ -212,7 +249,10 @@ export function SearchFilterBar() {
             </>
           )}
 
-          <div ref={scrollRef} className="flex gap-2 overflow-hidden scroll-smooth">
+          <div
+            ref={scrollRef}
+            className="flex gap-2 overflow-hidden scroll-smooth"
+          >
             {quickAmenities.map((amenity) => {
               const isSelected = selectedAmenities.includes(amenity.value);
 

@@ -7,7 +7,6 @@ import { Separator } from "../../ui/separator";
 import { Button } from "../../ui/button";
 
 import { formatBRL } from "@/utils/formatters.utils";
-import { useClickOutside } from "@/hooks/useClickOutside";
 
 type PricePopoverProps = {
   initialMinPrice: string;
@@ -56,8 +55,6 @@ export function PricePopover({
     });
 
   }
-
-  useClickOutside(ref, handleApply);
 
   return (
     <div

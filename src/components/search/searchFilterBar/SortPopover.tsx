@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useClickOutside } from "@/hooks/useClickOutside";
 
 const sortOptions = [
   { label: "Estadias em destaque", sort: "featured", order: "desc" },
@@ -36,8 +35,6 @@ export function SortPopover({
   function applyAndClose() {
     onApply(selectedOption.sort, selectedOption.order);
   }
-
-  useClickOutside(ref, applyAndClose);
 
   return (
     <div
