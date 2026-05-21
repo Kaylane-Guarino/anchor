@@ -1,36 +1,219 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StayFlow ✈️🏨
 
-## Getting Started
+Plataforma de busca e reserva de hotéi, desenvolvida com foco em experiência do usuário, performance e arquitetura escalável.
 
-First, run the development server:
+## 🔗 Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Frontend: https://anchor-one-rust.vercel.app/
+
+Backend Mock API: https://mock-api-anchor.onrender.com/
+
+---
+
+## ✨ Funcionalidades
+
+### Busca
+
+- Busca por destino
+- Sugestões automáticas (autocomplete)
+- Seleção de datas
+- Seleção de hóspedes e quartos
+- Persistência via URL
+
+### Filtros
+
+- Faixa de preço
+- Avaliação mínima
+- Tipo de propriedade
+- Comodidades
+- Ordenação
+- Aplicação dinâmica de filtros
+
+### Hotéis
+
+- Detalhes completos
+- Galeria de imagens
+- Distância até praia e centro
+- Amenidades tratadas
+- Avaliações
+- Seleção de quartos
+
+### Checkout
+
+- Resumo da reserva
+- Formulário validado
+- Máscaras
+- Persistência da reserva
+
+---
+
+## 🛠 Tecnologias
+
+### Frontend
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Shadcn UI
+- TanStack Query
+- Zustand
+- React Hook Form
+- Zod
+- Axios
+
+### Backend Mock
+
+- JSON Server
+- Render
+
+### Deploy
+
+- Vercel
+- Render
+
+---
+
+## 📂 Estrutura do projeto
+
+```txt
+src
+├── app
+├── components
+│   ├── checkout
+│   ├── hotel
+│   ├── layout
+│   ├── search
+│   └── ui
+├── hooks
+├── lib
+├── services
+├── stores
+├── types
+├── utils
+└── schemas
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏗 Arquitetura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O projeto foi estruturado seguindo princípios de separação de responsabilidades:
 
-## Learn More
+- Components → UI e apresentação
+- Hooks → lógica reutilizável
+- Services → integração com API
+- Stores → gerenciamento de estado global
+- Utils → funções auxiliares
+- Schemas → validações
 
-To learn more about Next.js, take a look at the following resources:
+Também foram aplicados conceitos de:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Clean Code
+- SOLID
+- Componentização
+- Reutilização
+- Tipagem forte
+- Separation of Concerns
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ⚡ Melhorias implementadas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Skeleton loading
+- Estados de erro
+- Estados vazios
+- Retry automático
+- Tratamento global de API
+- Persistência de filtros na URL
+- Galeria interativa
+- Responsividade
+- SEO básico
+- Otimização de imagens
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚀 Como executar
+
+### Clonar projeto
+
+```bash
+git clone https://github.com/Kaylane-Guarino/stayflow.git
+```
+
+Entrar na pasta:
+
+```bash
+cd stayflow
+```
+
+Instalar dependências:
+
+```bash
+pnpm install
+```
+
+Criar arquivo:
+
+```env
+.env.local
+```
+
+Adicionar:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3333
+```
+
+Rodar frontend:
+
+```bash
+pnpm dev
+```
+
+---
+
+## Backend Mock
+
+Entrar na pasta:
+
+```bash
+cd mock-api
+```
+
+Instalar:
+
+```bash
+pnpm install
+```
+
+Rodar:
+
+```bash
+pnpm dev
+```
+
+---
+
+## 📈 Melhorias futuras
+
+- Favoritar hotéis
+- Histórico de buscas
+- Mapa integrado
+- Compartilhamento
+- Testes unitários
+- Testes E2E
+- Storybook
+- Virtualização
+- Prefetch de hotéis
+- Placeholder blur em imagens
+
+---
+
+## 👩‍💻 Desenvolvido por
+
+Kaylane Guarino
+
+LinkedIn: https://www.linkedin.com/in/kaylane-guarino-84229120a/
+
+GitHub: https://github.com/Kaylane-Guarino
