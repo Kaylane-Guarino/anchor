@@ -6,7 +6,7 @@ import { SearchFilterBar } from "@/components/search/searchFilterBar/SearchFilte
 
 export default function SearchPage() {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen">
       <Suspense fallback={null}>
         <SearchFilterBar />
       </Suspense>

@@ -12,7 +12,7 @@ export default async function HotelDetailsPage({
   const { hotelId } = await params;
 
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen">
       <HotelDetails hotelId={hotelId} />
     </main>
   );

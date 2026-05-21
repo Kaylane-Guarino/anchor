@@ -132,7 +132,7 @@ export function SearchFilterBar() {
   }, []);
 
   return (
-  <div className="border-b bg-white">
+  <div className="bg-white">
     <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center">
       <div className="flex w-full gap-2 overflow-x-auto pb-1 lg:w-auto lg:shrink-0 lg:overflow-visible lg:pb-0">
         <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
