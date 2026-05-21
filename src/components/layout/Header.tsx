@@ -1,27 +1,35 @@
-  import Link from "next/link";
-  import Image from "next/image";
-  import Logo from "../../../assets/complete-logo.svg";
+"use client";
 
-  export function Header() {
-    return (
-      <header className="bg-primary">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-          <Link href="/">
-            <Image alt="Anchor." src={Logo} width={150} />
-          </Link>
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
-          <div className="flex gap-8 items-center">
-            {/* <button className="text-md font-medium px-3 py-2 text-primary-text bg-transparent hover:bg-hover-white hover:text-secondary-text cursor-pointer rounded-3xl text-black">
-              pt-BR
-            </button> */}
-            {/* <Link href="/search" className="text-md font-medium">
-              Populares
-            </Link> */}
-            <button className="px-6 py-3 cursor-pointer bg-background rounded-full text-sm font-semibold text-secondary-text">
-              Fazer login
-            </button>
+import Logo from "../../../assets/complete-logo.svg";
+import { SearchForm } from "../search/search-form/SearchForm";
+
+export function Header() {
+  const pathname = usePathname();
+  const isSearchPage = pathname === "/search";
+
+  return (
+    <header className="bg-primary">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
+        <Link href="/" className="shrink-0">
+          <Image alt="Anchor." src={Logo} width={150} />
+        </Link>
+
+        {isSearchPage && (
+          <div className="hidden flex-1 justify-center md:flex">
+            <SearchForm variant="header" />
           </div>
+        )}
+
+        <div className="flex shrink-0 items-center gap-8">
+          <button className="cursor-pointer rounded-full bg-background px-6 py-3 text-sm font-semibold text-secondary-text">
+            Fazer login
+          </button>
         </div>
-      </header>
-    );
-  }
+      </div>
+    </header>
+  );
+}
