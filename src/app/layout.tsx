@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: "StayFlow",
+  title: "Anchor - Encontre as melhores ofertas de hotéis",
   description: "Seu site de busca de hotéis",
 };
 
