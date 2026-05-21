@@ -12,10 +12,16 @@ export type HotelFilters = {
   maxPrice?: string;
   rating?: string;
   propertyType?: string;
+  amenity?: string[];
   sort?: string;
   order?: "asc" | "desc";
   page?: string;
   limit?: string;
+};
+
+export type PaginatedHotelsResponse = {
+  hotels: Hotel[];
+  total: number;
 };
 
 //Suggestions
@@ -30,22 +36,46 @@ export async function getSuggestions(query: string): Promise<Suggestion[]> {
 }
 
 // Hotels
-export async function getHotels(filters?: HotelFilters): Promise<Hotel[]> {
-  const { data } = await api.get<Hotel[]>("/hotels", {
-    params: {
-      destination: filters?.destination,
-      pricePerNight_gte: filters?.minPrice,
-      pricePerNight_lte: filters?.maxPrice,
-      rating_gte: filters?.rating,
-      propertyType: filters?.propertyType,
-      _sort: filters?.sort,
-      _order: filters?.order,
-      _page: filters?.page ?? "1",
-      _limit: filters?.limit ?? "10",
-    },
+export async function getHotels(
+  filters?: HotelFilters
+): Promise<PaginatedHotelsResponse> {
+  const params: Record<string, string | number> = {
+    _page: filters?.page ?? "1",
+    _limit: filters?.limit ?? "10",
+  };
+
+  if (filters?.destination) {
+    params.destination = filters.destination;
+  }
+
+  if (filters?.maxPrice) {
+    params.pricePerNight_lte = filters.maxPrice;
+  }
+
+  if (filters?.rating) {
+    params.rating_gte = filters.rating;
+  }
+
+  if (filters?.propertyType) {
+    params.propertyType = filters.propertyType;
+  }
+
+  if (filters?.sort) {
+    params._sort = filters.sort;
+  }
+
+  if (filters?.order) {
+    params._order = filters.order;
+  }
+
+  const response = await api.get<Hotel[]>("/hotels", {
+    params,
   });
 
-  return data;
+  return {
+    hotels: response.data,
+    total: Number(response.headers["x-total-count"] ?? response.data.length),
+  };
 }
 
 export async function getHotelById(hotelId: string): Promise<Hotel> {
