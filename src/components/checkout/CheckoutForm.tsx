@@ -74,7 +74,7 @@ export function CheckoutForm() {
     <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="rounded-2xl bg-white p-6 shadow-sm"
+        className="order-2 rounded-2xl bg-white p-6 shadow-sm lg:order-1"
       >
         <h2 className="mb-6 text-2xl font-bold text-foreground">
           Dados do responsável
@@ -211,7 +211,7 @@ export function CheckoutForm() {
         </button>
       </form>
 
-      <aside className="h-fit rounded-2xl bg-white p-5 shadow-sm">
+      <aside className="order-1 h-fit rounded-2xl bg-white p-5 shadow-sm lg:order-2">
         <div className="relative h-48 overflow-hidden rounded-xl">
           <Image
             src={selectedHotel.thumbnail}

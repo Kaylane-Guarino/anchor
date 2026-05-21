@@ -115,6 +115,16 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
                 </span>
               ))}
             </div>
+
+            <div className="lg:hidden">
+              <HotelPriceSummary
+                variant="mobile"
+                pricePerNight={hotel.pricePerNight}
+                checkInTime={hotel.checkInTime}
+                checkOutTime={hotel.checkOutTime}
+                availableRooms={hotel.availableRooms}
+              />
+            </div>
           </section>
 
           <section className="rounded-2xl bg-white p-6 shadow-sm">
@@ -197,31 +207,68 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
           </section>
         </div>
 
-        <aside className="h-fit rounded-2xl bg-white p-6 shadow-sm">
-          <p className="text-sm text-gray-500">A partir de</p>
-
-          <p className="text-3xl font-bold text-primary">
-            {formatBRL(hotel.pricePerNight)}
-          </p>
-
-          <p className="text-sm text-gray-500">por noite</p>
-
-          <div className="mt-5 border-t pt-5 text-sm text-gray-600">
-            <p>
-              <strong>Check-in:</strong> {hotel.checkInTime}
-            </p>
-
-            <p className="mt-2">
-              <strong>Check-out:</strong> {hotel.checkOutTime}
-            </p>
-
-            <p className="mt-2">
-              <strong>Disponíveis:</strong> {hotel.availableRooms} quartos
-            </p>
-          </div>
+        <aside className="hidden lg:block">
+          <HotelPriceSummary
+            pricePerNight={hotel.pricePerNight}
+            checkInTime={hotel.checkInTime}
+            checkOutTime={hotel.checkOutTime}
+            availableRooms={hotel.availableRooms}
+          />
         </aside>
       </div>
     </section>
+  );
+}
+
+type HotelPriceSummaryProps = {
+  pricePerNight: number;
+  checkInTime: string;
+  checkOutTime: string;
+  availableRooms: number;
+  variant?: "mobile" | "desktop";
+};
+
+function HotelPriceSummary({
+  pricePerNight,
+  checkInTime,
+  checkOutTime,
+  availableRooms,
+  variant = "desktop",
+}: HotelPriceSummaryProps) {
+  return (
+    <div
+      className={
+        variant === "mobile"
+          ? "mt-6"
+          : "h-fit rounded-2xl bg-white p-6 shadow-sm"
+      }
+    >
+      <p className="hidden text-sm text-gray-500 md:flex">A partir de</p>
+
+      <p className="hidden text-3xl font-bold text-primary md:flex">
+        {formatBRL(pricePerNight)}
+      </p>
+
+      <p className="hidden text-sm text-gray-500 md:flex">por noite</p>
+
+      <p className="flex text-lg font-semibold text-foreground mb-4 md:hidden">
+        Informações de checkin
+      </p>
+
+      <div className="md:mt-5 md:border-t md:pt-5 text-sm text-gray-600">
+        <p>
+          <strong>Check-in:</strong> A partir de {checkInTime}
+        </p>
+
+        <p className="mt-2">
+          <strong>Check-out:</strong> Até {checkOutTime}
+        </p>
+
+        <p className="mt-2">
+          <strong>Disponíveis:</strong> {availableRooms} quartos
+        </p>
+      </div>
+    </div>
   );
 }
 

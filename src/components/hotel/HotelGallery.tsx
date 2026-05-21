@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { is } from "date-fns/locale";
 
 type HotelGalleryProps = {
   images: string[];
@@ -25,19 +27,80 @@ const galleryCategories = [
 export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const mainImage = images[0];
+  const mobilePreviewImages = images.length === 3 ? images.slice(1, 3) : images.slice(1, 2);
+  const remainingPhotos = Math.max(images.length - 2, 0);
+
   return (
     <>
-      <div className="grid gap-2 overflow-hidden rounded-2xl md:grid-cols-[2fr_1fr]">
+      {/* Mobile */}
+      <div className="grid gap-2 overflow-hidden rounded-2xl md:hidden">
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="relative h-[360px] bg-gray-200 cursor-pointer"
+          className="relative h-[280px] cursor-pointer bg-gray-200"
         >
           <Image
-            src={images[0]}
+            src={mainImage}
             alt={hotelName}
             fill
-  sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </button>
+
+        {mobilePreviewImages.length > 0 && (
+          <div
+            className={
+              mobilePreviewImages.length === 2
+                ? "grid grid-cols-2 gap-2"
+                : "grid grid-cols-1 gap-2"
+            }
+          >
+            {mobilePreviewImages.map((image, index) => {
+              const shouldShowRemaining =
+                images.length > 3 && index === mobilePreviewImages.length - 1;
+
+              return (
+                <button
+                  key={image}
+                  type="button"
+                  onClick={() => setIsOpen(true)}
+                  className="relative h-[140px] cursor-pointer overflow-hidden bg-gray-200"
+                >
+                  <Image
+                    src={image}
+                    alt={`${hotelName} imagem ${index + 2}`}
+                    fill
+                    sizes={mobilePreviewImages.length === 2 ? "50vw" : "100vw"}
+                    className="object-cover"
+                  />
+
+                  {shouldShowRemaining && remainingPhotos > 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-xl font-bold text-white">
+                      +{remainingPhotos} fotos
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop */}
+      <div className="hidden gap-2 overflow-hidden rounded-2xl md:grid md:grid-cols-[2fr_1fr]">
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="relative h-[360px] cursor-pointer bg-gray-200"
+        >
+          <Image
+            src={mainImage}
+            alt={hotelName}
+            fill
+            sizes="50vw"
             className="object-cover"
             priority
           />
@@ -49,13 +112,13 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
               key={image}
               type="button"
               onClick={() => setIsOpen(true)}
-              className="relative h-[176px] bg-gray-200 cursor-pointer"
+              className="relative h-[176px] cursor-pointer bg-gray-200"
             >
               <Image
                 src={image}
                 alt={`${hotelName} imagem ${index + 2}`}
                 fill
-  sizes="220px"
+                sizes="220px"
                 className="object-cover"
               />
             </button>
@@ -86,6 +149,7 @@ function HotelGalleryModal({
   images,
   hotelName,
 }: HotelGalleryModalProps) {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   function scrollCategories(direction: "left" | "right") {
     const element = document.getElementById("gallery-categories");
@@ -103,9 +167,7 @@ function HotelGalleryModal({
           Galeria de fotos do {hotelName}
         </DialogTitle>
 
-        <div
-          className="h-full overflow-y-auto overflow-x-hidden"
-        >
+        <div className="h-full overflow-y-auto overflow-x-hidden">
           <div className="sticky top-0 z-50 bg-white px-6 py-5">
             <div className="mb-5 flex items-center justify-between gap-4">
               <button
@@ -113,51 +175,51 @@ function HotelGalleryModal({
                 onClick={() => onOpenChange(false)}
                 className="flex min-w-0 items-center gap-4 text-xl font-bold text-secondary-text cursor-pointer"
               >
-                <ArrowLeft size={24} className="shrink-0" />
-                <span className="truncate">{hotelName}</span>
+                {isDesktop ? <ArrowLeft size={24} className="shrink-0" /> : <X size={24} className="shrink-0" />}
+                <span className="hidden md:truncate md:flex ">{hotelName}</span>
               </button>
             </div>
-              <button
-                type="button"
-                onClick={() => scrollCategories("left")}
-                className="absolute left-4 top-2/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow cursor-pointer"
-              >
-                <ChevronLeft />
-              </button>
+            <button
+              type="button"
+              onClick={() => scrollCategories("left")}
+              className="absolute left-4 top-2/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow cursor-pointer"
+            >
+              <ChevronLeft />
+            </button>
 
-              <div
-                id="gallery-categories"
-                className="flex gap-4 overflow-hidden px-12"
-              >
-                {galleryCategories.map((category, index) => (
-                  <button
-                    key={`${category}-${index}`}
-                    className="relative h-[76px] min-w-[200px] overflow-hidden rounded-2xl"
-                  >
-                    <Image
-                      src={images[index % images.length]}
-                      alt={category}
-                      fill
-  sizes="220px"
-                      className="object-cover"
-                    />
+            <div
+              id="gallery-categories"
+              className="flex gap-4 overflow-hidden px-12"
+            >
+              {galleryCategories.map((category, index) => (
+                <button
+                  key={`${category}-${index}`}
+                  className="relative h-[76px] min-w-[200px] overflow-hidden rounded-2xl"
+                >
+                  <Image
+                    src={images[index % images.length]}
+                    alt={category}
+                    fill
+                    sizes="220px"
+                    className="object-cover"
+                  />
 
-                    <div className="absolute inset-0 bg-black/35" />
+                  <div className="absolute inset-0 bg-black/35" />
 
-                    <span className="absolute inset-x-2 bottom-3 text-center text-base font-bold text-white">
-                      {category}
-                    </span>
-                  </button>
-                ))}
-              </div>
+                  <span className="absolute inset-x-2 bottom-3 text-center text-base font-bold text-white">
+                    {category}
+                  </span>
+                </button>
+              ))}
+            </div>
 
-              <button
-                type="button"
-                onClick={() => scrollCategories("right")}
-                className="absolute right-5 top-2/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow cursor-pointer"
-              >
-                <ChevronRight />
-              </button>
+            <button
+              type="button"
+              onClick={() => scrollCategories("right")}
+              className="absolute right-5 top-2/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow cursor-pointer"
+            >
+              <ChevronRight />
+            </button>
           </div>
 
           <div className="px-6 pb-10">

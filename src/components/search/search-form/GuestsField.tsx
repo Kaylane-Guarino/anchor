@@ -1,4 +1,5 @@
 import { User } from "lucide-react";
+
 import { Counter } from "./Counter";
 
 type GuestsFieldProps = {
@@ -29,25 +30,22 @@ export function GuestsField({
   const isHeader = variant === "header";
 
   return (
-    <>
+    <div className="relative min-w-0">
       <button
         type="button"
         onClick={onToggle}
         className={
           isHeader
-            ? "flex min-w-0 items-center gap-2 bg-white px-3 py-2 text-left text-sm font-semibold"
-            : "flex min-w-0 items-center gap-4 bg-white px-5 py-4 text-left font-semibold"
+            ? "flex w-full min-w-0 items-center gap-2 bg-white px-3 py-2 text-left text-sm font-semibold"
+            : "flex w-full min-w-0 items-center gap-3 border-t bg-white px-5 py-4 text-left font-semibold md:border-l md:border-t-0"
         }
       >
-        <User className="shrink-0 text-gray-500" size={isHeader ? 18 : 24} />
+        <User
+          className="shrink-0 text-gray-500"
+          size={isHeader ? 18 : 22}
+        />
 
-        <span
-          className={
-            isHeader
-              ? "block w-[150px] overflow-hidden text-ellipsis whitespace-nowrap text-gray-500"
-              : "block w-[210px] overflow-hidden text-ellipsis whitespace-nowrap text-gray-500"
-          }
-        >
+        <span className="block min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-500">
           {adults} adultos · {children} criança · {rooms} quarto
         </span>
       </button>
@@ -56,8 +54,8 @@ export function GuestsField({
         <div
           className={
             isHeader
-              ? "absolute right-0 z-50 mt-10 w-[360px] rounded-xl bg-white p-6 shadow-xl"
-              : "absolute right-32 z-50 mt-17 w-[430px] rounded-xl bg-white p-8 shadow-xl"
+              ? "absolute right-0 z-50 mt-3 w-[min(92vw,360px)] rounded-xl bg-white p-5 shadow-xl"
+              : "absolute left-1/2 z-50 mt-0 md:mt-2 w-[min(92vw,430px)] -translate-x-1/2 rounded-xl bg-white p-5 shadow-xl md:left-auto md:right-0 md:translate-x-0 md:p-8"
           }
         >
           <Counter
@@ -88,13 +86,13 @@ export function GuestsField({
             <button
               type="button"
               onClick={onClose}
-              className="w-full rounded-lg border border-primary px-6 py-3 font-semibold text-primary hover:bg-blue-50"
+              className="w-full cursor-pointer rounded-lg border border-primary px-6 py-3 font-semibold text-primary hover:bg-blue-50"
             >
               OK
             </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

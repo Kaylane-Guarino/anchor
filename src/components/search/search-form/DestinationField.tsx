@@ -31,7 +31,7 @@ export function DestinationField({
       className={
         isHeader
           ? "relative flex min-w-0 items-center gap-2 rounded-l-full bg-white px-4 py-2"
-          : "relative flex min-w-0 items-center gap-4 bg-background px-5 py-4"
+          : "relative flex min-w-0 items-center gap-4 px-5 py-4"
       }
     >
       <Hotel className="shrink-0 text-gray-500" size={isHeader ? 18 : 24} />

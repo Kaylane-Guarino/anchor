@@ -14,7 +14,7 @@ export function Header() {
 
   return (
     <header className="bg-primary">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-center md:justify-between gap-6 px-4 py-4">
         <Link href="/" className="shrink-0">
           <Image alt="Anchor." src={Logo} width={150} />
         </Link>

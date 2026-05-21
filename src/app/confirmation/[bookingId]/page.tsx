@@ -15,9 +15,9 @@ export default async function ConfirmationPage({
   const { bookingId } = await params;
 
   return (
-    <main className="min-h-screen bg-gray-100">
-      <section className="mx-auto max-w-3xl px-4 py-16">
-        <div className="rounded-2xl bg-white p-8 text-center flex flex-col items-center shadow-sm">
+    <main>
+      <section className="mx-auto max-w-3xl lg:pt-8">
+        <div className="rounded-2xl bg-white mt-8 lg:mt-0 lg:p-8 text-center flex flex-col items-center lg:shadow-sm">
           <h1 className="text-4xl font-bold text-primary">
             Reserva confirmada!
           </h1>
