@@ -23,12 +23,6 @@ export function Header() {
             <SearchForm variant="header" />
           </div>
         )}
-
-        <div className="flex shrink-0 items-center gap-8">
-          <button className="cursor-pointer rounded-full bg-background px-6 py-3 text-sm font-semibold text-secondary-text">
-            Fazer login
-          </button>
-        </div>
       </div>
     </header>
   );

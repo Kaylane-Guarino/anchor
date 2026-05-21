@@ -1,11 +1,18 @@
 "use client";
 
-import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getHotelById, getReviewsByHotelId, getRoomsByHotelId } from "@/services/api";
 
-// import { RoomCard } from "@/components/hotel/RoomCard";
+import {
+  getHotelById,
+  getReviewsByHotelId,
+  getRoomsByHotelId,
+} from "@/services/api";
+import { HotelGallery } from "@/components/hotel/HotelGallery";
+import { getAmenityLabel } from "@/utils/hotel.utils";
+import { RoomCard } from "@/components/hotel/RoomCard";
+import { formatBRL } from "@/utils/formatters.utils";
+import Image from "next/image";
 
 type HotelDetailsProps = {
   hotelId: string;
@@ -57,6 +64,8 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
     );
   }
 
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${hotel.latitude},${hotel.longitude}`;
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-6">
@@ -65,10 +74,15 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
         </h1>
 
         <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-gray-500">
-          <span className="flex items-center gap-1">
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 underline hover:text-primary"
+          >
             <MapPin size={16} />
             {hotel.destination} • {hotel.address}
-          </span>
+          </a>
 
           <span className="flex items-center gap-1">
             <Star size={16} className="fill-yellow-400 text-yellow-400" />
@@ -89,9 +103,7 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
               Sobre este hotel
             </h2>
 
-            <p className="leading-relaxed text-gray-600">
-              {hotel.description}
-            </p>
+            <p className="leading-relaxed text-gray-600">{hotel.description}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
               {hotel.amenities.map((amenity) => (
@@ -99,7 +111,7 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
                   key={amenity}
                   className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600"
                 >
-                  {amenity}
+                  {getAmenityLabel(amenity)}
                 </span>
               ))}
             </div>
@@ -110,7 +122,9 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
               Quartos disponíveis
             </h2>
 
-            {isLoadingRooms && <p className="text-gray-500">Carregando quartos...</p>}
+            {isLoadingRooms && (
+              <p className="text-gray-500">Carregando quartos...</p>
+            )}
 
             {isRoomsError && (
               <p className="text-red-600">
@@ -118,11 +132,11 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
               </p>
             )}
 
-            {/* <div className="grid gap-4">
+            <div className="grid gap-4">
               {rooms?.map((room) => (
                 <RoomCard key={room.id} hotel={hotel} room={room} />
               ))}
-            </div> */}
+            </div>
           </section>
 
           <section className="rounded-2xl bg-white p-6 shadow-sm">
@@ -132,22 +146,47 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
 
             <div className="grid gap-4">
               {reviews?.slice(0, 3).map((review) => (
-                <article key={review.id} className="border-b pb-4 last:border-b-0">
-                  <div className="flex items-center justify-between">
-                    <strong className="text-foreground">{review.guestName}</strong>
+                <article
+                  key={review.id}
+                  className="border-b pb-4 last:border-b-0 flex items-start gap-4"
+                >
+                  <Image
+                    src={review.guestAvatar}
+                    alt={review.guestName}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <strong className="text-foreground">
+                        {review.guestName}
+                      </strong>
 
-                    <span className="rounded-lg bg-primary px-2 py-1 text-sm font-bold text-white">
-                      {review.rating}
-                    </span>
+                      <span className="text-sm font-bold text-secondary-text flex flex-col items-center">
+                        {review.rating}
+                        <div className="flex">
+                          {Array(review.rating)
+                            .fill(0)
+                            .map((_, i) => (
+                              <Star
+                                key={i}
+                                size={10}
+                                className="fill-yellow-400 text-yellow-400"
+                              />
+                            ))}
+                        </div>
+                      </span>
+                    </div>
+
+                    <h3 className="mt-2 font-semibold text-foreground">
+                      {review.title}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-600">
+                      {review.comment}
+                    </p>
                   </div>
-
-                  <h3 className="mt-2 font-semibold text-foreground">
-                    {review.title}
-                  </h3>
-
-                  <p className="mt-1 text-sm text-gray-600">
-                    {review.comment}
-                  </p>
                 </article>
               ))}
 
@@ -162,7 +201,7 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
           <p className="text-sm text-gray-500">A partir de</p>
 
           <p className="text-3xl font-bold text-primary">
-            R$ {hotel.pricePerNight}
+            {formatBRL(hotel.pricePerNight)}
           </p>
 
           <p className="text-sm text-gray-500">por noite</p>
@@ -180,50 +219,9 @@ export function HotelDetails({ hotelId }: HotelDetailsProps) {
               <strong>Disponíveis:</strong> {hotel.availableRooms} quartos
             </p>
           </div>
-
-          <p className="mt-5 rounded-xl bg-orange-50 p-3 text-sm text-orange-700">
-            {hotel.cancellationPolicy}
-          </p>
         </aside>
       </div>
     </section>
-  );
-}
-
-type HotelGalleryProps = {
-  images: string[];
-  hotelName: string;
-};
-
-function HotelGallery({ images, hotelName }: HotelGalleryProps) {
-  const mainImage = images[0];
-  const secondaryImages = images.slice(1, 5);
-
-  return (
-    <div className="grid gap-2 overflow-hidden rounded-2xl md:grid-cols-[2fr_1fr]">
-      <div className="relative h-[360px] bg-gray-200">
-        <Image
-          src={mainImage}
-          alt={hotelName}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        {secondaryImages.map((image, index) => (
-          <div key={image} className="relative h-[176px] bg-gray-200">
-            <Image
-              src={image}
-              alt={`${hotelName} imagem ${index + 2}`}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 

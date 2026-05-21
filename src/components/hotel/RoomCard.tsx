@@ -5,6 +5,8 @@ import { BedDouble, Users } from "lucide-react";
 
 import { Hotel, Room } from "@/types/hotel";
 import { useBookingStore } from "@/stores/booking.store";
+import { getAmenityLabel } from "@/utils/hotel.utils";
+import { formatBRL } from "@/utils/formatters.utils";
 
 type RoomCardProps = {
   hotel: Hotel;
@@ -50,7 +52,7 @@ export function RoomCard({ hotel, room }: RoomCardProps) {
                 key={amenity}
                 className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600"
               >
-                {amenity}
+                {getAmenityLabel(amenity)}
               </span>
             ))}
           </div>
@@ -64,13 +66,13 @@ export function RoomCard({ hotel, room }: RoomCardProps) {
           <p className="text-sm text-gray-500">Diária</p>
 
           <p className="text-3xl font-bold text-primary">
-            R$ {room.pricePerNight}
+            {formatBRL(room.pricePerNight)}
           </p>
 
           <button
             type="button"
             onClick={handleSelectRoom}
-            className="mt-4 w-full rounded-xl bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark"
+            className="mt-4 w-full rounded-xl bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark cursor-pointer transition-colors"
           >
             Selecionar
           </button>

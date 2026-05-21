@@ -13,6 +13,24 @@ export const amenityLabels: Record<string, string> = {
   kids_club: "Espaço kids",
   valet: "Manobrista",
   concierge: "Concierge",
+
+  ocean_view: "Vista para o mar",
+  city_view: "Vista da cidade",
+  garden_view: "Vista para o jardim",
+  balcony: "Varanda",
+  bathtub: "Banheira",
+  minibar: "Frigobar",
+  safe: "Cofre",
+  aircon: "Ar-condicionado",
+  terrace: "Terraço",
+  desk: "Mesa de trabalho",
+  lounge_access: "Acesso ao lounge",
+  living_room: "Sala de estar",
+  garden: "Jardim",
+  pool_access: "Acesso à piscina",
+  kitchen: "Cozinha",
+  sound_system: "Sistema de som",
+  butler: "Mordomo",
 };
 
 export function getAmenityLabel(amenity: string) {
