@@ -9,7 +9,7 @@ import React, {
 import { motion, AnimatePresence, Variants } from "motion/react";
 import LoadingCircleSpinner from "./loading";
 
-interface StepperProps extends HTMLAttributes<HTMLDivElement> {
+type Props = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
   initialStep?: number;
   onStepChange?: (step: number) => void;
@@ -52,7 +52,7 @@ export default function Stepper({
   renderStepIndicator,
   validateStep,
   ...rest
-}: StepperProps) {
+}: Props) {
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
   const [direction, setDirection] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -382,7 +382,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
   );
 }
 
-interface CheckIconProps extends React.SVGProps<SVGSVGElement> {}
+type CheckIconProps = React.SVGProps<SVGSVGElement>;
 
 function CheckIcon(props: CheckIconProps) {
   return (

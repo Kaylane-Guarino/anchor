@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { BedDouble, Users } from "lucide-react";
 
 import { Hotel, Room } from "@/types/hotel";
@@ -15,9 +15,7 @@ type RoomCardProps = {
 
 export function RoomCard({ hotel, room }: RoomCardProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const setBookingDates = useBookingStore((state) => state.setBookingDates);
+  
   const setSelectedHotel = useBookingStore((state) => state.setSelectedHotel);
   const setSelectedRoom = useBookingStore((state) => state.setSelectedRoom);
 

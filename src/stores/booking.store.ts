@@ -51,7 +51,7 @@ export const useBookingStore = create<BookingState>()(
         }),
     }),
     {
-      name: "stayflow-booking",
+      name: "anchor-booking",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

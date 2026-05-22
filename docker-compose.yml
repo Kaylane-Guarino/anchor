@@ -1,0 +1,9 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:3333
+    container_name: anchor-web
+    ports:
+      - "3000:3000"

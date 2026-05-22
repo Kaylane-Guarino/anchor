@@ -1,4 +1,4 @@
-# StayFlow ✈️🏨
+# Anchor ✈️🏨
 
 Uma plataforma moderna de reservas de hotéis desenvolvida como teste técnico, permitindo pesquisar destinos, visualizar hotéis, selecionar quartos e concluir uma reserva com fluxo completo de checkout.
 
@@ -316,13 +316,13 @@ Implementações realizadas:
 Clone o projeto:
 
 ```bash
-git clone https://github.com/seu-usuario/stayflow.git
+git clone https://github.com/Kaylane-Guarino/anchor.git
 ```
 
 Entre na pasta:
 
 ```bash
-cd stayflow
+cd anchor
 ```
 
 Instale dependências:

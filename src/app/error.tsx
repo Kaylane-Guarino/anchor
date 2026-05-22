@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import ErrorImage from "../../assets/error.svg";
 
@@ -12,9 +10,6 @@ export default function Error({
   error: Error;
   reset: () => void;
 }) {
-  const router = useRouter();
-  const [hasTriedAgain, setHasTriedAgain] = useState(false);
-
   function handleTryAgain() {
   reset();
 
@@ -29,12 +24,6 @@ export default function Error({
         Algo deu errado
       </h2>
 
-      <p className="mt-2 text-gray-500">
-        {hasTriedAgain
-          ? "Se o erro continuar, volte para a página inicial."
-          : "Ocorreu um erro inesperado."}
-      </p>
-
       <Image
         src={ErrorImage}
         alt="Imagem de erro"
@@ -46,7 +35,7 @@ export default function Error({
         onClick={handleTryAgain}
         className="mt-6 rounded-xl bg-primary px-6 py-3 text-white cursor-pointer"
       >
-        {hasTriedAgain ? "Ir para início" : "Tentar novamente"}
+        Tentar novamente
       </button>
     </div>
   );

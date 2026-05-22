@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 type GuestsFieldProps = {
   adults: number;
-  children: number;
+  kids: number;
   rooms: number;
   isOpen: boolean;
   onToggle: () => void;
@@ -19,7 +19,7 @@ type GuestsFieldProps = {
 
 export function GuestsField({
   adults,
-  children,
+  kids,
   rooms,
   isOpen,
   onToggle,
@@ -65,7 +65,7 @@ export function GuestsField({
         <User className="shrink-0 text-gray-500" size={isHeader ? 18 : 22} />
 
         <span className="block min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-gray-500">
-          {adults} adultos · {children} criança · {rooms} quarto
+          {adults} adultos · {kids} criança · {rooms} quarto
         </span>
       </button>
 
@@ -88,10 +88,10 @@ export function GuestsField({
 
           <Counter
             label="Crianças"
-            value={children}
+            value={kids}
             min={0}
-            onDecrease={() => onChildrenChange(Math.max(0, children - 1))}
-            onIncrease={() => onChildrenChange(children + 1)}
+            onDecrease={() => onChildrenChange(Math.max(0, kids - 1))}
+            onIncrease={() => onChildrenChange(kids + 1)}
           />
 
           <Counter

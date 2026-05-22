@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { Slider } from "../../ui/slider";
 import { Separator } from "../../ui/separator";
@@ -28,13 +28,6 @@ export function PricePopover({
     Number(initialMinPrice || 100),
     Number(initialMaxPrice || 3000),
   ]);
-
-  useEffect(() => {
-    setValue([
-      Number(initialMinPrice || 100),
-      Number(initialMaxPrice || 3000),
-    ]);
-  }, [initialMinPrice, initialMaxPrice]);
 
   function handleApply() {
     onApply({

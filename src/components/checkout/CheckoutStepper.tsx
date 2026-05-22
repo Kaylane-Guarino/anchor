@@ -66,14 +66,18 @@ export function CheckoutStepper() {
 
   const { roomsTotal, total } = bookingSummary;
 
-  const phone = watch("phone") ?? "";
-  const document = watch("document") ?? "";
-  const cardNumber = watch("cardNumber") ?? "";
-  const cardExpiration = watch("cardExpiration") ?? "";
-  const name = watch("name") ?? "";
-  const email = watch("email") ?? "";
-  const cardCvv = watch("cardCvv") ?? "";
-  const nameOnCard = watch("nameOnCard") ?? "";
+  const watchedValues = watch();
+
+  const {
+    phone = "",
+    document = "",
+    cardNumber = "",
+    cardExpiration = "",
+    name = "",
+    email = "",
+    cardCvv = "",
+    nameOnCard = "",
+  } = watchedValues;
 
   async function validateStep(step: number) {
     if (step === 1) {

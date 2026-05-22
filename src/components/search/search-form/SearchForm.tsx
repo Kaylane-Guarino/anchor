@@ -143,9 +143,7 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
           isOpen={openedDropdown === "calendar"}
           maxCheckoutDate={maxCheckoutDate}
           onToggle={() =>
-            setOpenedDropdown((current) =>
-              current === "calendar" ? null : "calendar",
-            )
+            setOpenedDropdown(openedDropdown === "calendar" ? null : "calendar")
           }
           onClose={() => setOpenedDropdown(null)}
           onChange={handleDateRangeChange}
@@ -154,18 +152,16 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
         <GuestsField
           variant={variant}
           adults={adults}
-          children={children}
+          kids={children}
           rooms={rooms}
           isOpen={openedDropdown === "guests"}
           onToggle={() =>
-            setOpenedDropdown((current) =>
-              current === "guests" ? null : "guests",
-            )
+            setOpenedDropdown(openedDropdown === "guests" ? null : "guests")
           }
           onClose={() => setOpenedDropdown(null)}
-          onAdultsChange={setAdults}
-          onChildrenChange={setChildren}
-          onRoomsChange={setRooms}
+          onAdultsChange={(value) => setAdults(value)}
+          onChildrenChange={(value) => setChildren(value)}
+          onRoomsChange={(value) => setRooms(value)}
         />
 
         <button

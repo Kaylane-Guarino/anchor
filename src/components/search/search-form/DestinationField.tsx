@@ -14,7 +14,7 @@ type DestinationFieldProps = {
   variant?: "hero" | "header";
 };
 
-const RECENT_DESTINATIONS_KEY = "stayflow:recent-destinations";
+const RECENT_DESTINATIONS_KEY = "anchor:recent-destinations";
 
 function getRecentDestinations() {
   if (typeof window === "undefined") return [];
@@ -60,7 +60,9 @@ export function DestinationField({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [recentDestinations, setRecentDestinations] = useState<string[]>([]);
+  const [recentDestinations, setRecentDestinations] = useState<string[]>(
+  () => getRecentDestinations()
+);
 
   const shouldShowSuggestions = value.trim().length >= 2;
 
@@ -74,9 +76,6 @@ export function DestinationField({
     return recentDestinations;
   }, [shouldShowSuggestions, suggestions, recentDestinations]);
 
-  useEffect(() => {
-    setRecentDestinations(getRecentDestinations());
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -246,7 +245,7 @@ export function DestinationField({
                 onClick={() => handleSelectSuggestion(suggestion)}
                 className={cn(
                   "flex w-full cursor-pointer flex-col rounded-xl px-4 py-3 text-left transition",
-                  selectedIndex === index ? "bg-gray-100" : "hover:bg-gray-100"
+                  selectedIndex === index ? "bg-gray-100" : "hover:bg-gray-100",
                 )}
               >
                 <span className="font-semibold">{suggestion.name}</span>
