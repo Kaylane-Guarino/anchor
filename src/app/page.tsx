@@ -144,6 +144,8 @@ export default async function Home() {
                   src={destination.imageUrl}
                   alt={destination.name}
                   fill
+                  priority
+                  quality={85}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition hover:scale-105"
                 />
@@ -166,6 +168,8 @@ export default async function Home() {
                   src={destination.imageUrl}
                   alt={destination.name}
                   fill
+                  priority
+                  quality={85}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition hover:scale-105"
                 />
@@ -198,6 +202,8 @@ export default async function Home() {
                         src={hotel.thumbnail}
                         alt={hotel.name}
                         fill
+                        priority
+                        quality={85}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover"
                       />
