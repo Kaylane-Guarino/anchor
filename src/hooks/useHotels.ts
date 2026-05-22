@@ -7,8 +7,6 @@ import { useHotelSearchFilters } from "./useHotelSearchFilters";
 export function useHotels() {
   const filters = useHotelSearchFilters();
 
-  console.log("filters no useHotels", filters);
-
   const query = useQuery({
     queryKey: ["hotels", filters],
     queryFn: () =>

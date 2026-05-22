@@ -60,3 +60,31 @@ export const formatCPF = (value: string): string => {
     "$1.$2.$3-$4"
   );
 };
+
+// Formata número de cartão de crédito para padrão brasileiro
+export function formatCreditCard(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .slice(0, 16)
+    .replace(/(\d{4})(?=\d)/g, "$1 ")
+    .trim();
+}
+
+// Formata data de validade do cartão para padrão MM/AAAA
+export function formatCardExpiry(value: string) {
+  const cleanedValue = value
+    .replace(/\D/g, "")
+    .slice(0, 4);
+
+  let month = cleanedValue.slice(0, 2);
+  const year = cleanedValue.slice(2);
+
+  if (month.length === 2) {
+    const monthNumber = Number(month);
+
+    if (monthNumber < 1) month = "01";
+    if (monthNumber > 12) month = "12";
+  }
+
+  return year ? `${month}/${year}` : month;
+}

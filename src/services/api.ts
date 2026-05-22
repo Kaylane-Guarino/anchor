@@ -128,9 +128,6 @@ export async function getHotels(
       filters.order;
   }
 
-  console.log("params", params);
-  
-
   try {
     const response =
       await api.get<Hotel[]>(

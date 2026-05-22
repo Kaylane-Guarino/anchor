@@ -74,8 +74,6 @@ export function SearchFilterBar() {
     (selectedRating ? 1 : 0);
 
   function applyFilters(values: FilterValues) {
-    console.log("values", values);
-    
     const params = updateSearchParams(searchParams, values);
 
     router.push(`/search?${params.toString()}`);

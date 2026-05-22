@@ -80,13 +80,6 @@ export function CheckoutForm() {
   function onSubmit(data: CheckoutFormData) {
     const bookingId = crypto.randomUUID().slice(0, 8).toUpperCase();
 
-    console.log({
-      bookingId,
-      guest: data,
-      hotel: selectedHotel,
-      room: selectedRoom,
-    });
-
     clearBooking();
 
     router.push(`/confirmation/${bookingId}`);
