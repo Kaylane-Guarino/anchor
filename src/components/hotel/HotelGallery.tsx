@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 
 type HotelGalleryProps = {
   images: string[];
@@ -50,11 +51,12 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
 
         {mobilePreviewImages.length > 0 && (
           <div
-            className={
+            className={cn(
+              "grid gap-2",
               mobilePreviewImages.length === 2
-                ? "grid grid-cols-2 gap-2"
-                : "grid grid-cols-1 gap-2"
-            }
+                ? "grid-cols-2"
+                : "grid-cols-1"
+            )}
           >
             {mobilePreviewImages.map((image, index) => {
               const shouldShowRemaining =

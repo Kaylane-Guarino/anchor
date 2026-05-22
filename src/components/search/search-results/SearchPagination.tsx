@@ -9,6 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -17,15 +18,9 @@ type SearchPaginationProps = {
   totalPages: number;
 };
 
-function getVisiblePages(
-  currentPage: number,
-  totalPages: number,
-) {
+function getVisiblePages(currentPage: number, totalPages: number) {
   if (totalPages <= 7) {
-    return Array.from(
-      { length: totalPages },
-      (_, i) => i + 1,
-    );
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
   if (currentPage <= 4) {
@@ -63,26 +58,15 @@ export function SearchPagination({
   const searchParams = useSearchParams();
 
   function goToPage(page: number) {
-    if (
-      page < 1 ||
-      page > totalPages ||
-      page === currentPage
-    ) {
+    if (page < 1 || page > totalPages || page === currentPage) {
       return;
     }
 
-    const params = new URLSearchParams(
-      searchParams.toString(),
-    );
+    const params = new URLSearchParams(searchParams.toString());
 
-    params.set(
-      "page",
-      String(page),
-    );
+    params.set("page", String(page));
 
-    router.push(
-      `/search?${params.toString()}`,
-    );
+    router.push(`/search?${params.toString()}`);
 
     window.scrollTo({
       top: 0,
@@ -94,22 +78,14 @@ export function SearchPagination({
     return null;
   }
 
-  const pages = getVisiblePages(
-    currentPage,
-    totalPages,
-  );
+  const pages = getVisiblePages(currentPage, totalPages);
 
   return (
     <Pagination className="mt-10">
       <PaginationContent>
-
         <PaginationItem>
           <PaginationPrevious
-            onClick={() =>
-              goToPage(
-                currentPage - 1,
-              )
-            }
+            onClick={() => goToPage(currentPage - 1)}
             className={
               currentPage === 1
                 ? "pointer-events-none opacity-50"
@@ -118,55 +94,39 @@ export function SearchPagination({
           />
         </PaginationItem>
 
-        {pages.map(
-          (page, index) =>
-            page === "..." ? (
-              <PaginationItem
-              className="text-gray-200"
-                key={index}
+        {pages.map((page, index) =>
+          page === "..." ? (
+            <PaginationItem className="text-gray-200" key={index}>
+              <PaginationEllipsis />
+            </PaginationItem>
+          ) : (
+            <PaginationItem key={page}>
+              <PaginationLink
+                isActive={currentPage === page}
+                onClick={() => goToPage(Number(page))}
+                className={cn(
+                  "cursor-pointer border rounded-md",
+                  currentPage === page
+                    ? "border-primary"
+                    : "text-gray-200 border-gray-200",
+                )}
               >
-                <PaginationEllipsis />
-              </PaginationItem>
-            ) : (
-              <PaginationItem
-                key={page}
-              >
-                <PaginationLink
-                  isActive={
-                    currentPage ===
-                    page
-                  }
-                  onClick={() =>
-                    goToPage(
-                      Number(
-                        page,
-                      ),
-                    )
-                  }
-                  className={currentPage === page ? "cursor-pointer text-primary border border-primary rounded-md" : "cursor-pointer text-gray-200 border border-gray-200 rounded-md"}
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            ),
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ),
         )}
 
         <PaginationItem>
           <PaginationNext
-            onClick={() =>
-              goToPage(
-                currentPage + 1,
-              )
-            }
+            onClick={() => goToPage(currentPage + 1)}
             className={
-              currentPage ===
-              totalPages
+              currentPage === totalPages
                 ? "pointer-events-none opacity-50"
                 : "cursor-pointer border border-gray-200 rounded-md text-secondary-text"
             }
           />
         </PaginationItem>
-
       </PaginationContent>
     </Pagination>
   );

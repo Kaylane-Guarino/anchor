@@ -13,6 +13,7 @@ import { getAmenityLabel } from "@/utils/hotel.utils";
 import { RoomCard } from "@/components/hotel/RoomCard";
 import { formatBRL } from "@/utils/formatters.utils";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 type HotelDetailsProps = {
   hotelId: string;
@@ -237,11 +238,11 @@ function HotelPriceSummary({
 }: HotelPriceSummaryProps) {
   return (
     <div
-      className={
-        variant === "mobile"
-          ? "mt-6"
-          : "h-fit rounded-2xl bg-white p-6 shadow-sm"
-      }
+      className={cn(
+        "h-fit",
+        variant === "mobile" && "mt-6",
+        variant !== "mobile" && "rounded-2xl bg-white p-6 shadow-sm",
+      )}
     >
       <p className="hidden text-sm text-gray-500 md:flex">A partir de</p>
 

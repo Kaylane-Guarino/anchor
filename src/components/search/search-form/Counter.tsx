@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Minus, Plus } from "lucide-react";
 
 type CounterProps = {
@@ -24,12 +25,12 @@ export function Counter({
           type="button"
           disabled={value <= min}
           onClick={onDecrease}
-          className={`
-    flex h-9 w-9 items-center justify-center rounded-full text-xl transition ${
-      value <= min
-        ? "cursor-not-allowed border-gray-300 text-gray-300"
-        : "text-primary cursor-pointer"
-    }`}
+          className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full text-xl transition",
+            value <= min
+              ? "cursor-not-allowed border-gray-300 text-gray-300"
+              : "text-primary cursor-pointer"
+          )}
         >
           <Minus size={18} />
         </button>

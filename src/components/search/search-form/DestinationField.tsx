@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Suggestion } from "@/types/hotel";
 import { useSuggestions } from "@/hooks/useSuggestions";
 import { getSuggestionTypeLabel } from "@/utils/hotel.utils";
+import { cn } from "@/lib/utils";
 
 type DestinationFieldProps = {
   value: string;
@@ -162,11 +163,10 @@ export function DestinationField({
   return (
     <div
       ref={wrapperRef}
-      className={
-        isHeader
-          ? "relative flex min-w-0 items-center gap-2 rounded-l-full bg-white px-4 py-2"
-          : "relative flex min-w-0 items-center gap-4 rounded-l-full bg-background px-5 py-4"
-      }
+      className={cn(
+        "relative flex min-w-0 items-center gap-2 rounded-l-full",
+        isHeader ? "bg-white px-4 py-2" : "bg-background px-5 py-4",
+      )}
     >
       <Hotel className="shrink-0 text-gray-500" size={isHeader ? 18 : 24} />
 
@@ -183,11 +183,10 @@ export function DestinationField({
         }}
         onKeyDown={handleKeyDown}
         placeholder="Para onde você vai?"
-        className={
-          isHeader
-            ? "w-full min-w-0 bg-transparent text-sm font-semibold text-secondary-text outline-none"
-            : "w-full min-w-0 bg-transparent font-semibold text-secondary-text outline-none"
-        }
+        className={cn(
+          "w-full min-w-0 bg-transparent font-semibold text-secondary-text outline-none",
+          isHeader && "text-sm outline-none",
+        )}
       />
 
       {isOpen && (
@@ -210,9 +209,10 @@ export function DestinationField({
                 key={destination}
                 type="button"
                 onClick={() => handleSelectRecentDestination(destination)}
-                className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-left transition ${
-                  selectedIndex === index ? "bg-gray-100" : "hover:bg-gray-100"
-                }`}
+                className={cn(
+                  "flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-left transition",
+                  selectedIndex === index ? "bg-gray-100" : "hover:bg-gray-100",
+                )}
               >
                 <MapPin size={16} className="text-primary" />
 
@@ -244,9 +244,10 @@ export function DestinationField({
                 key={suggestion.id}
                 type="button"
                 onClick={() => handleSelectSuggestion(suggestion)}
-                className={`flex w-full cursor-pointer flex-col rounded-xl px-4 py-3 text-left transition ${
+                className={cn(
+                  "flex w-full cursor-pointer flex-col rounded-xl px-4 py-3 text-left transition",
                   selectedIndex === index ? "bg-gray-100" : "hover:bg-gray-100"
-                }`}
+                )}
               >
                 <span className="font-semibold">{suggestion.name}</span>
 

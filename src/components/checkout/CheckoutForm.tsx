@@ -77,7 +77,7 @@ export function CheckoutForm() {
     );
   }
 
-  function onSubmit(data: CheckoutFormData) {
+  function onSubmit() {
     const bookingId = crypto.randomUUID().slice(0, 8).toUpperCase();
 
     clearBooking();

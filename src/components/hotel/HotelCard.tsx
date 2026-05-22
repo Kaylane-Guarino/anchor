@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Hotel } from "@/types/hotel";
 import { formatBRL } from "@/utils/formatters.utils";
@@ -11,12 +14,14 @@ type HotelCardProps = {
 };
 
 export function HotelCard({ hotel }: HotelCardProps) {
+  const router = useRouter();
+
   const { centerDistance, beachDistance } = getHotelDistances(
     hotel.destination,
   );
 
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-md">
+    <article className="overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-md" >
       <div className="md:flex">
         <div className="relative h-[250px] md:h-auto md:w-[320px]">
           <Image
@@ -90,6 +95,7 @@ export function HotelCard({ hotel }: HotelCardProps) {
 
             <Link
               href={`/hotel/${hotel.id}`}
+              onMouseEnter={() => router.prefetch(`/hotel/${hotel.id}`)}
               className="rounded-xl bg-primary px-6 py-3 font-semibold text-white transition hover:opacity-90"
             >
               Ver detalhes

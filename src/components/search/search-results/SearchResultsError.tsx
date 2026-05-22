@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 type SearchResultsErrorProps = {
   onRetry: () => void;
 };
@@ -9,13 +11,14 @@ export function SearchResultsError({ onRetry }: SearchResultsErrorProps) {
         Erro ao carregar hotéis
       </h2>
 
-      <p className="mt-2 text-gray-500">
-        Não foi possível buscar hotéis.
-      </p>
+      <p className="mt-2 text-gray-500">Não foi possível buscar hotéis.</p>
 
       <button
         type="button"
-        onClick={onRetry}
+        onClick={() => {
+          toast.info("Tentando buscar hotéis novamente...");
+          onRetry();
+        }}
         className="mt-4 rounded-xl bg-primary px-5 py-3 font-semibold text-white"
       >
         Tentar novamente

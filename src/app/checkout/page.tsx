@@ -1,6 +1,4 @@
-import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { CheckoutStepper } from "@/components/checkout/CheckoutStepper";
-import { Suspense } from "react";
 
 export default function CheckoutPage() {
   return (
@@ -14,10 +12,7 @@ export default function CheckoutPage() {
           Revise os dados da sua estadia e preencha suas informações.
         </p>
 
-        {/* <CheckoutForm /> */}
-        {/* <Suspense fallback={null}> */}
           <CheckoutStepper />
-        {/* </Suspense> */}
       </section>
     </main>
   );

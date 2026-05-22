@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import Stepper, { Step } from "../ui/stepper";
 import { CheckoutFormData, checkoutSchema } from "@/schemas/checkout.schema";
@@ -96,6 +97,7 @@ export function CheckoutStepper() {
     const generatedBookingId = crypto.randomUUID().slice(0, 8).toUpperCase();
 
     setBookingId(generatedBookingId);
+    toast.success("Reserva confirmada com sucesso!");
   }
 
   function maskCardNumber(value?: string) {

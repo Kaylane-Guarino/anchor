@@ -7,6 +7,7 @@ import { DateRange, DayPicker } from "react-day-picker";
 
 import { formatDisplayDate } from "@/utils/search-form.utils";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 
 type DatePickerFieldProps = {
   dateRange?: DateRange;
@@ -63,11 +64,12 @@ export function DatePickerField({
       <button
         type="button"
         onClick={onToggle}
-        className={
+        className={cn(
+          "flex w-full min-w-0 items-center bg-white text-left font-semibold text-gray-500 cursor-pointer ",
           isHeader
-            ? "flex w-full min-w-0 items-center gap-2 bg-white px-3 py-2 text-left text-sm font-semibold text-gray-500 cursor-pointer"
-            : "flex w-full min-w-0 items-center gap-3 border-t bg-white px-5 py-4 text-left font-semibold text-gray-500 cursor-pointer md:border-l md:border-t-0"
-        }
+            ? "gap-2 px-3 py-2 text-sm cursor-pointer"
+            : "gap-3 border-t px-5 py-4 md:border-l md:border-t-0",
+        )}
       >
         <CalendarDays
           className="shrink-0 text-gray-500"
@@ -81,11 +83,10 @@ export function DatePickerField({
 
       {isOpen && (
         <div
-          className={
-            isHeader
-              ? "absolute left-1/2 z-50 mt-3 w-[min(92vw,620px)] -translate-x-1/2 rounded-xl bg-white p-3 shadow-xl"
-              : "absolute left-1/2 z-50 mt-3 w-[min(92vw,620px)] -translate-x-1/2 rounded-xl bg-white p-3 shadow-xl md:p-4"
-          }
+          className={cn(
+            "absolute left-1/2 z-50 mt-3 w-[min(92vw,620px)] -translate-x-1/2 rounded-xl bg-white p-3 shadow-xl",
+            isHeader && "md:p-4",
+          )}
         >
           <DayPicker
             mode="range"

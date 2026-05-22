@@ -71,13 +71,6 @@ export default function Stepper({
     }
   };
 
-  // const handleNext = async () => {
-    // if (!isLastStep) {
-    //   setDirection(1);
-    //   updateStep(currentStep + 1);
-    // }
-  // };
-
   const handleNext = async () => {
   const canGoNext = validateStep ? await validateStep(currentStep) : true;
 
@@ -109,11 +102,6 @@ async function handleStepClick(clickedStep: number) {
   setDirection(1);
   updateStep(clickedStep);
 }
-
-  // const handleComplete = () => {
-  //   setDirection(1);
-  //   updateStep(totalSteps + 1);
-  // };
 
   return (
     <div

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { ReactQueryProvider } from "@/lib/react-query";
-import "./globals.css";
+import { Geist } from "next/font/google";
+import { Toaster } from "sonner";
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { ReactQueryProvider } from "@/lib/react-query";
+import "./globals.css";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Anchor - Encontre as melhores ofertas de hotéis",
@@ -21,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={cn("font-sans", geist.variable)}>
       <body className="min-h-full flex flex-col">
-         <ReactQueryProvider>
+        <ReactQueryProvider>
           <Header />
           {children}
           <Footer />
         </ReactQueryProvider>
+
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
