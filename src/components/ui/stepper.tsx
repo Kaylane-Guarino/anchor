@@ -7,6 +7,7 @@ import React, {
   ReactNode,
 } from "react";
 import { motion, AnimatePresence, Variants } from "motion/react";
+import LoadingCircleSpinner from "./loading";
 
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -22,6 +23,8 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   backButtonText?: string;
   nextButtonText?: string;
   disableStepIndicators?: boolean;
+  isNextLoading?: boolean;
+  isLocked?: boolean;
   validateStep?: (currentStep: number) => Promise<boolean> | boolean;
   renderStepIndicator?: (props: {
     step: number;
@@ -44,12 +47,15 @@ export default function Stepper({
   backButtonText = "Back",
   nextButtonText = "Continue",
   disableStepIndicators = false,
+  isNextLoading = false,
+  isLocked = false,
   renderStepIndicator,
   validateStep,
   ...rest
 }: StepperProps) {
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
   const [direction, setDirection] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const stepsArray = Children.toArray(children);
   const totalSteps = stepsArray.length;
   const isCompleted = currentStep > totalSteps;
@@ -65,6 +71,8 @@ export default function Stepper({
   };
 
   const handleBack = () => {
+    if (isLocked || isNextLoading) return;
+
     if (currentStep > 1) {
       setDirection(-1);
       updateStep(currentStep - 1);
@@ -72,36 +80,44 @@ export default function Stepper({
   };
 
   const handleNext = async () => {
-  const canGoNext = validateStep ? await validateStep(currentStep) : true;
+    if (isLocked || isNextLoading) return;
 
-  if (!canGoNext) return;
+    const canGoNext = validateStep ? await validateStep(currentStep) : true;
 
-  setDirection(1);
+    if (!canGoNext) return;
 
-  if (isLastStep) {
-    updateStep(totalSteps + 1);
-    return;
-  }
+    setDirection(1);
 
-  updateStep(currentStep + 1);
-};
+    if (isLastStep) {
+      setLoading(true);
+      setTimeout(() => {
+        updateStep(totalSteps + 1);
+        setLoading(false);
+      }, 1800);
+      return;
+    }
 
-async function handleStepClick(clickedStep: number) {
-  if (clickedStep === currentStep) return;
+    updateStep(currentStep + 1);
+  };
 
-  if (clickedStep < currentStep) {
-    setDirection(-1);
+  async function handleStepClick(clickedStep: number) {
+    if (isLocked || isNextLoading) return;
+
+    if (clickedStep === currentStep) return;
+
+    if (clickedStep < currentStep) {
+      setDirection(-1);
+      updateStep(clickedStep);
+      return;
+    }
+
+    const canGoNext = validateStep ? await validateStep(currentStep) : true;
+
+    if (!canGoNext) return;
+
+    setDirection(1);
     updateStep(clickedStep);
-    return;
   }
-
-  const canGoNext = validateStep ? await validateStep(currentStep) : true;
-
-  if (!canGoNext) return;
-
-  setDirection(1);
-  updateStep(clickedStep);
-}
 
   return (
     <div
@@ -123,7 +139,7 @@ async function handleStepClick(clickedStep: number) {
                   renderStepIndicator({
                     step: stepNumber,
                     currentStep,
-                   onStepClick: handleStepClick,
+                    onStepClick: handleStepClick,
                   })
                 ) : (
                   <StepIndicator
@@ -173,7 +189,16 @@ async function handleStepClick(clickedStep: number) {
                 className="duration-350 flex items-center justify-center rounded-full bg-primary py-1.5 px-3.5 font-medium text-white cursor-pointer"
                 {...nextButtonProps}
               >
-                {isLastStep ? "Finalizar" : nextButtonText}
+                {isNextLoading || (isLastStep && loading) ? (
+                  <div className="flex items-center gap-2">
+                    <p>Finalizar</p>
+                    <LoadingCircleSpinner />
+                  </div>
+                ) : isLastStep ? (
+                  "Finalizar"
+                ) : (
+                  nextButtonText
+                )}
               </button>
             </div>
           </div>

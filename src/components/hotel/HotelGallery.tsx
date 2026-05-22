@@ -27,7 +27,8 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const mainImage = images[0];
-  const mobilePreviewImages = images.length === 3 ? images.slice(1, 3) : images.slice(1, 2);
+  const mobilePreviewImages =
+    images.length === 3 ? images.slice(1, 3) : images.slice(1, 2);
   const remainingPhotos = Math.max(images.length - 2, 0);
 
   return (
@@ -53,9 +54,7 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
           <div
             className={cn(
               "grid gap-2",
-              mobilePreviewImages.length === 2
-                ? "grid-cols-2"
-                : "grid-cols-1"
+              mobilePreviewImages.length === 2 ? "grid-cols-2" : "grid-cols-1",
             )}
           >
             {mobilePreviewImages.map((image, index) => {
@@ -73,6 +72,7 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
                     src={image}
                     alt={`${hotelName} imagem ${index + 2}`}
                     fill
+                    loading="lazy"
                     sizes={mobilePreviewImages.length === 2 ? "50vw" : "100vw"}
                     className="object-cover"
                   />
@@ -120,6 +120,7 @@ export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
                 fill
                 sizes="220px"
                 className="object-cover"
+                loading="lazy"
               />
             </button>
           ))}
@@ -175,7 +176,11 @@ function HotelGalleryModal({
                 onClick={() => onOpenChange(false)}
                 className="flex min-w-0 items-center gap-4 text-xl font-bold text-secondary-text cursor-pointer"
               >
-                {isDesktop ? <ArrowLeft size={24} className="shrink-0" /> : <X size={24} className="shrink-0" />}
+                {isDesktop ? (
+                  <ArrowLeft size={24} className="shrink-0" />
+                ) : (
+                  <X size={24} className="shrink-0" />
+                )}
                 <span className="hidden md:truncate md:flex ">{hotelName}</span>
               </button>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,7 +13,6 @@ import { HotelGallery } from "@/components/hotel/HotelGallery";
 import { getAmenityLabel } from "@/utils/hotel.utils";
 import { RoomCard } from "@/components/hotel/RoomCard";
 import { formatBRL } from "@/utils/formatters.utils";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 type HotelDetailsProps = {

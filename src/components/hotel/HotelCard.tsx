@@ -21,7 +21,7 @@ export function HotelCard({ hotel }: HotelCardProps) {
   );
 
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-md" >
+    <article className="overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-md">
       <div className="md:flex">
         <div className="relative h-[250px] md:h-auto md:w-[320px]">
           <Image
@@ -29,6 +29,7 @@ export function HotelCard({ hotel }: HotelCardProps) {
             alt={hotel.name}
             fill
             priority={false}
+            loading="lazy"
             sizes="(max-width: 768px) 100vw, 320px"
             className="object-cover"
           />

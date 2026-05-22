@@ -27,21 +27,14 @@ import {
   formatPhone,
 } from "@/utils/formatters.utils";
 import { BookingConfirmationCard } from "./BookingConfirmationCard";
-
-const TAXES = 89;
-const FEES = 56;
-
-function calculateNights(checkIn?: string, checkOut?: string) {
-  if (!checkIn || !checkOut) return 1;
-
-  const startDate = new Date(`${checkIn}T00:00:00`);
-  const endDate = new Date(`${checkOut}T00:00:00`);
-
-  const diffInMs = endDate.getTime() - startDate.getTime();
-  const nights = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-
-  return Math.max(1, nights);
-}
+import {
+  BOOKING_FEES,
+  BOOKING_TAXES,
+  calculateBookingTotal,
+  calculateNights,
+  generateBookingId,
+  maskCardNumber,
+} from "@/utils/booking.utils";
 
 export function CheckoutStepper() {
   const {
@@ -56,6 +49,8 @@ export function CheckoutStepper() {
       terms: false,
     },
   });
+  const [isFinishingBooking, setIsFinishingBooking] = useState(false);
+  const [isBookingCompleted, setIsBookingCompleted] = useState(false);
   const [showCvv, setShowCvv] = useState(false);
   const [bookingId, setBookingId] = useState("");
   const selectedHotel = useBookingStore((state) => state.selectedHotel);
@@ -64,8 +59,12 @@ export function CheckoutStepper() {
   const checkOut = useBookingStore((state) => state.checkOut);
 
   const nights = calculateNights(checkIn, checkOut);
-  const roomsTotal = selectedRoom ? selectedRoom.pricePerNight * nights : 0;
-  const total = roomsTotal + TAXES + FEES;
+  const bookingSummary = calculateBookingTotal({
+    pricePerNight: selectedRoom?.pricePerNight ?? 0,
+    nights,
+  });
+
+  const { roomsTotal, total } = bookingSummary;
 
   const phone = watch("phone") ?? "";
   const document = watch("document") ?? "";
@@ -93,20 +92,16 @@ export function CheckoutStepper() {
     return true;
   }
 
-  function handleFinishBooking() {
-    const generatedBookingId = crypto.randomUUID().slice(0, 8).toUpperCase();
+  async function handleFinishBooking() {
+    setIsFinishingBooking(true);
+
+    const generatedBookingId = generateBookingId();
 
     setBookingId(generatedBookingId);
-    toast.success("Reserva confirmada com sucesso!");
-  }
+    setIsBookingCompleted(true);
+    setIsFinishingBooking(false);
 
-  function maskCardNumber(value?: string) {
-    const numbers = value?.replace(/\D/g, "") ?? "";
-    const lastFour = numbers.slice(-4);
-
-    if (!lastFour) return "**** **** **** ----";
-
-    return `**** **** **** ${lastFour}`;
+    toast.success("Pagamento aprovado! Reserva confirmada.");
   }
 
   if (!selectedHotel || !selectedRoom) {
@@ -139,6 +134,9 @@ export function CheckoutStepper() {
           onFinalStepCompleted={handleFinishBooking}
           backButtonText="Voltar"
           nextButtonText="Continuar"
+          isNextLoading={isFinishingBooking}
+          isLocked={isBookingCompleted}
+          disableStepIndicators={isBookingCompleted}
           className="min-w-0"
         >
           <Step>
@@ -480,6 +478,7 @@ export function CheckoutStepper() {
             fill
             sizes="350px"
             className="object-cover"
+            loading="lazy"
           />
         </div>
 
@@ -506,18 +505,18 @@ export function CheckoutStepper() {
           </p>
 
           <p className="flex items-center justify-between">
-            <span>{nights}</span>
+            <span>{nights} Diária(s)</span>
             <strong>{formatBRL(roomsTotal)}</strong>
           </p>
 
           <p className="flex items-center justify-between">
             <span>Taxas</span>
-            <strong>{formatBRL(89)}</strong>
+            <strong>{formatBRL(BOOKING_TAXES)}</strong>
           </p>
 
           <p className="flex items-center justify-between">
             <span>Impostos</span>
-            <strong>{formatBRL(56)}</strong>
+            <strong>{formatBRL(BOOKING_FEES)}</strong>
           </p>
         </div>
 

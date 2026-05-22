@@ -61,6 +61,30 @@ function isValidCreditCard(value: string) {
   return sum % 10 === 0;
 }
 
+function isValidCardExpiration(value: string) {
+  const [month, year] = value.split("/");
+
+  if (!month || !year) return false;
+
+  const monthNumber = Number(month);
+  const yearNumber = Number(`20${year}`);
+
+  if (monthNumber < 1 || monthNumber > 12) return false;
+
+  const now = new Date();
+
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+
+  if (yearNumber < currentYear) return false;
+
+  if (yearNumber === currentYear && monthNumber < currentMonth) {
+    return false;
+  }
+
+  return true;
+}
+
 export const checkoutSchema = z.object({
   name: z
     .string()
@@ -94,7 +118,9 @@ export const checkoutSchema = z.object({
 
   cardExpiration: z
     .string()
-    .min(1, "Informe a validade."),
+    .min(1, "Informe a validade.")
+    .regex(/^\d{2}\/\d{2}$/, "Use o formato MM/AA.")
+    .refine(isValidCardExpiration, "Cartão expirado ou validade inválida."),
 
   cardCvv: z
     .string()
