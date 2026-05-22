@@ -11,29 +11,6 @@ Cole sua URL:
 ```txt
 https://anchor-one-rust.vercel.app/
 ```
-
----
-
-# 📸 Preview
-
-Adicione screenshots ou GIFs:
-
-## Home
-
-![Home](./docs/home.png)
-
-## Search
-
-![Search](./docs/search.png)
-
-## Hotel Details
-
-![Hotel](./docs/hotel-details.png)
-
-## Checkout
-
-![Checkout](./docs/checkout.png)
-
 ---
 
 # ✨ Funcionalidades
