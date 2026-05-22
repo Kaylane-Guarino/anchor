@@ -9,39 +9,8 @@ Uma plataforma moderna de reservas de hotéis desenvolvida como teste técnico, 
 Cole sua URL:
 
 ```txt
-https://seu-frontend.vercel.app
+https://anchor-one-rust.vercel.app/
 ```
-
-**Backend Mock API (Render):**
-
-Cole sua URL:
-
-```txt
-https://seu-backend.onrender.com
-```
-
----
-
-# 📸 Preview
-
-Adicione screenshots ou GIFs:
-
-## Home
-
-![Home](./docs/home.png)
-
-## Search
-
-![Search](./docs/search.png)
-
-## Hotel Details
-
-![Hotel](./docs/hotel-details.png)
-
-## Checkout
-
-![Checkout](./docs/checkout.png)
-
 ---
 
 # ✨ Funcionalidades
@@ -336,25 +305,11 @@ Inicie frontend:
 ```bash
 pnpm dev
 ```
-
-Inicie backend:
-
-```bash
-pnpm server
-```
-
 Frontend:
 
 ```txt
 http://localhost:3000
 ```
-
-API:
-
-```txt
-http://localhost:3333
-```
-
 ---
 
 # 🔮 Melhorias futuras
