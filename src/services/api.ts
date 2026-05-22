@@ -14,8 +14,8 @@ export const api = axios.create({
 
 export type HotelFilters = {
   destination?: string;
-  minPrice?: string;
-  maxPrice?: string;
+  pricePerNight_gte?: string;
+  pricePerNight_lte?: string;
   rating?: string;
   propertyType?: string;
   amenity?: string[];
@@ -91,9 +91,13 @@ export async function getHotels(
       filters.destination;
   }
 
-  if (filters?.maxPrice) {
+  if (filters?.pricePerNight_lte) {
     params.pricePerNight_lte =
-      filters.maxPrice;
+      filters.pricePerNight_lte;
+  }
+  if (filters?.pricePerNight_gte) {
+    params.pricePerNight_gte =
+      filters.pricePerNight_gte;
   }
 
   if (filters?.rating) {
@@ -123,6 +127,9 @@ export async function getHotels(
     params._order =
       filters.order;
   }
+
+  console.log("params", params);
+  
 
   try {
     const response =

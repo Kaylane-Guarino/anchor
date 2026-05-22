@@ -21,7 +21,8 @@ export function SearchResults() {
   const rooms = searchParams.get("rooms") ?? "1";
   const page = searchParams.get("page") ?? "1";
 
-  const maxPrice = searchParams.get("maxPrice") ?? "";
+  const pricePerNight_lte = searchParams.get("pricePerNight_lte") ?? "";
+  const pricePerNight_gte = searchParams.get("pricePerNight_gte") ?? "";
   const rating = searchParams.get("rating") ?? "";
   const propertyType = searchParams.get("propertyType") ?? "";
   const amenity = searchParams.getAll("amenity");
@@ -39,7 +40,8 @@ export function SearchResults() {
         adults,
         children,
         rooms,
-        maxPrice,
+        pricePerNight_lte,
+        pricePerNight_gte,
         rating,
         propertyType,
         amenity,
@@ -52,7 +54,8 @@ export function SearchResults() {
     queryFn: () =>
       getHotels({
         destination,
-        maxPrice,
+        pricePerNight_lte,
+        pricePerNight_gte,
         rating,
         propertyType,
         amenity,

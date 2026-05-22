@@ -95,13 +95,13 @@ export function DatePickerField({
             locale={ptBR}
             disabled={[
               { before: new Date() },
-
               ...(maxCheckoutDate ? [{ after: maxCheckoutDate }] : []),
             ]}
             className="text-sm [&_.rdp-months]:flex-col md:[&_.rdp-months]:flex-row"
             classNames={{
               months: "flex flex-col gap-4 md:flex-row md:gap-8",
               month: "w-full md:w-[250px]",
+              month_grid: "w-full",
 
               month_caption:
                 "mb-3 flex items-center justify-center px-10 font-bold text-foreground",

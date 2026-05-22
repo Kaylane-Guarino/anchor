@@ -64,12 +64,46 @@ function getDefaultSearchUrl(destination: string) {
   return `/search?${params.toString()}`;
 }
 
+function getNextWeekendDates() {
+  const today = new Date();
+
+  const friday = new Date(today);
+  const day = today.getDay();
+
+  const daysUntilFriday = (5 - day + 7) % 7 || 7;
+
+  friday.setDate(today.getDate() + daysUntilFriday);
+
+  const sunday = new Date(friday);
+  sunday.setDate(friday.getDate() + 2);
+
+  return {
+    checkIn: friday,
+    checkOut: sunday,
+  };
+}
+
 export default async function Home() {
   const { hotels } = await getHotels({
     sort: "rating",
     order: "desc",
     limit: "6",
   });
+
+  function formatCarouselDate(date: Date) {
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "long",
+    })
+      .format(date)
+      .replace(".", "");
+  }
+
+  const { checkIn, checkOut } = getNextWeekendDates();
+
+  const weekendLabel = `${formatCarouselDate(checkIn)} - ${formatCarouselDate(
+    checkOut,
+  )}`;
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -157,8 +191,7 @@ export default async function Home() {
                   className="basis-full pl-4 sm:basis-1/2 lg:basis-1/3"
                 >
                   <Link
-                    href={`/hotel/${hotel.id}`}
-                    className="block overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-md"
+                    href={`/hotel/${hotel.id}?checkIn=${checkIn.toISOString().split("T")[0]}&checkOut=${checkOut.toISOString().split("T")[0]}`}
                   >
                     <div className="relative h-52 w-full">
                       <Image
@@ -177,6 +210,10 @@ export default async function Home() {
 
                       <p className="mt-1 text-sm text-gray-500">
                         {hotel.destination}
+                      </p>
+
+                      <p className="mt-2 text-sm font-medium text-gray-500">
+                        {weekendLabel}
                       </p>
 
                       <div className="mt-3 flex items-center justify-between gap-3">

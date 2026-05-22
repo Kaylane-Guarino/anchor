@@ -35,8 +35,8 @@ const quickAmenities = [
 ];
 
 type FilterValues = {
-  maxPrice?: string;
-  minPrice?: string;
+  pricePerNight_lte?: string;
+  pricePerNight_gte?: string;
   sort?: string;
   order?: "asc" | "desc";
   amenity?: string[];
@@ -74,6 +74,8 @@ export function SearchFilterBar() {
     (selectedRating ? 1 : 0);
 
   function applyFilters(values: FilterValues) {
+    console.log("values", values);
+    
     const params = updateSearchParams(searchParams, values);
 
     router.push(`/search?${params.toString()}`);
@@ -224,12 +226,12 @@ export function SearchFilterBar() {
             className="w-[calc(100vw-32px)] max-w-[470px] border-none p-0 shadow-none"
           >
             <PricePopover
-              initialMinPrice={searchParams.get("minPrice") ?? ""}
-              initialMaxPrice={searchParams.get("maxPrice") ?? ""}
+              initialMinPrice={searchParams.get("pricePerNight_gte") ?? ""}
+              initialMaxPrice={searchParams.get("pricePerNight_lte") ?? ""}
               onApply={(prices) =>
                 applyFilters({
-                  minPrice: prices.minPrice,
-                  maxPrice: prices.maxPrice,
+                  pricePerNight_gte: prices.minPrice,
+                  pricePerNight_lte: prices.maxPrice,
                 })
               }
             />

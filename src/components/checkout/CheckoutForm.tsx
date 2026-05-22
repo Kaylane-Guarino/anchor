@@ -33,6 +33,28 @@ export function CheckoutForm() {
   const phone = watch("phone");
   const document = watch("document");
 
+  const TAXES = 89;
+  const FEES = 56;
+
+  const checkIn = useBookingStore((state) => state.checkIn);
+  const checkOut = useBookingStore((state) => state.checkOut);
+
+  function calculateNights(checkIn?: string, checkOut?: string) {
+    if (!checkIn || !checkOut) return 1;
+
+    const startDate = new Date(`${checkIn}T00:00:00`);
+    const endDate = new Date(`${checkOut}T00:00:00`);
+
+    const diffInMs = endDate.getTime() - startDate.getTime();
+    const nights = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+    return Math.max(1, nights);
+  }
+
+  const nights = calculateNights(checkIn, checkOut);
+  const roomsTotal = selectedRoom ? selectedRoom.pricePerNight * nights : 0;
+  const total = roomsTotal + TAXES + FEES;
+
   if (!selectedHotel || !selectedRoom) {
     return (
       <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
@@ -243,6 +265,11 @@ export function CheckoutForm() {
             <span>Diária</span>
             <strong>{formatBRL(selectedRoom.pricePerNight)}</strong>
           </p>
+          
+          <p className="flex items-center justify-between">
+            <span>{nights}</span>
+            <strong>{formatBRL(roomsTotal)}</strong>
+          </p>
 
           <p className="flex items-center justify-between">
             <span>Taxas</span>
@@ -260,7 +287,7 @@ export function CheckoutForm() {
             <span>Total</span>
 
             <span className="text-primary">
-              {formatBRL(selectedRoom.pricePerNight + 89 + 56)}
+              {formatBRL(total)}
             </span>
           </p>
         </div>

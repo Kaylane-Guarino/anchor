@@ -11,7 +11,8 @@ export type HotelSearchFilters = {
   adults: string;
   children: string;
   rooms: string;
-  maxPrice: string;
+  pricePerNight_gte: string;
+  pricePerNight_lte: string;
   rating: string;
   propertyType: string;
   amenity: string[];
@@ -38,7 +39,8 @@ export function useHotelSearchFilters(): HotelSearchFilters {
     adults: searchParams.get("adults") ?? "2",
     children: searchParams.get("children") ?? "0",
     rooms: searchParams.get("rooms") ?? "1",
-    maxPrice: searchParams.get("maxPrice") ?? "",
+    pricePerNight_lte: searchParams.get("pricePerNight_lte") ?? "",
+    pricePerNight_gte: searchParams.get("pricePerNight_gte") ?? "",
     rating: searchParams.get("rating") ?? "",
     propertyType: searchParams.get("propertyType") ?? "",
     amenity: searchParams.getAll("amenity"),

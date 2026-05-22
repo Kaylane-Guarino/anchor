@@ -9,6 +9,7 @@ import { DatePickerField } from "./DatePickerField";
 import { DestinationField } from "./DestinationField";
 import { GuestsField } from "./GuestsField";
 import { buildSearchParams } from "@/utils/search-form.utils";
+import { useBookingStore } from "@/stores/booking.store";
 
 type SearchFormProps = {
   variant?: "hero" | "header";
@@ -51,6 +52,8 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
   >(null);
 
   const isHeader = variant === "header";
+
+  const setBookingDates = useBookingStore((state) => state.setBookingDates);
 
   function handleDateRangeChange(range?: DateRange) {
     if (!range?.from) {
@@ -99,6 +102,14 @@ export function SearchForm({ variant = "hero" }: SearchFormProps) {
       adults,
       children,
       rooms,
+    });
+
+    const checkIn = params.get("checkIn") ?? "";
+    const checkOut = params.get("checkOut") ?? "";
+
+    setBookingDates({
+      checkIn,
+      checkOut,
     });
 
     router.push(`/search?${params.toString()}`);

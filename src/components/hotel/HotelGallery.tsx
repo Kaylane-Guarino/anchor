@@ -2,12 +2,10 @@
 
 import Image from "next/image";
 import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { is } from "date-fns/locale";
 
 type HotelGalleryProps = {
   images: string[];
