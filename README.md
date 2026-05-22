@@ -9,15 +9,7 @@ Uma plataforma moderna de reservas de hotéis desenvolvida como teste técnico, 
 Cole sua URL:
 
 ```txt
-https://seu-frontend.vercel.app
-```
-
-**Backend Mock API (Render):**
-
-Cole sua URL:
-
-```txt
-https://seu-backend.onrender.com
+https://anchor-one-rust.vercel.app/
 ```
 
 ---
