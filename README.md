@@ -285,13 +285,13 @@ Implementações realizadas:
 Clone o projeto:
 
 ```bash
-git clone https://github.com/seu-usuario/stayflow.git
+git clone https://github.com/Kaylane-Guarino/anchor.git
 ```
 
 Entre na pasta:
 
 ```bash
-cd stayflow
+cd anchor
 ```
 
 Instale dependências:
@@ -305,25 +305,11 @@ Inicie frontend:
 ```bash
 pnpm dev
 ```
-
-Inicie backend:
-
-```bash
-pnpm server
-```
-
 Frontend:
 
 ```txt
 http://localhost:3000
 ```
-
-API:
-
-```txt
-http://localhost:3333
-```
-
 ---
 
 # 🔮 Melhorias futuras
