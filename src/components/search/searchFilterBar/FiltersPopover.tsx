@@ -85,7 +85,7 @@ export function FiltersPopover({
   }
 
   return (
-    <div className="w-[720px] rounded-xl bg-white shadow-2xl">
+    <div className="rounded-xl bg-white shadow-2xl">
       <div className="space-y-8 p-6">
         <div className="border-b pb-6">
           <h2 className="mb-5 text-xl font-bold text-foreground">
