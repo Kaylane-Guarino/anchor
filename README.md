@@ -154,6 +154,21 @@ Apenas X quartos restantes
 - TanStack Query
 - Lucide React
 
+### DevOps
+
+- Docker
+- Docker Compose
+- GitHub Actions
+- Vercel
+- Render
+
+### Infraestrutura
+
+- Execução completa usando Docker
+- Docker Compose para múltiplos serviços
+- Pipeline automatizada com GitHub Actions
+- Deploy automático via Vercel
+
 ### Backend Mock
 
 - JSON Server
@@ -312,6 +327,74 @@ http://localhost:3000
 ```
 ---
 
+## ✅ CI/CD
+
+O projeto possui pipeline automatizada usando GitHub Actions:
+
+Fluxo:
+
+```txt
+Push / Pull Request
+        ↓
+Instala dependências
+        ↓
+Executa lint
+        ↓
+Executa build
+        ↓
+Valida aplicação
+        ↓
+Deploy automático via Vercel
+```
+
+Validações executadas:
+
+- Instalação das dependências
+- Lint
+- Build do projeto
+- Verificação de falhas antes do deploy
+
+Deploy:
+
+- Frontend hospedado na Vercel
+- Mock API hospedada no Render
+
+---
+
+## 🐳 Docker
+
+O projeto pode ser executado completamente com Docker.
+
+Subir aplicação:
+
+```bash
+docker compose up --build
+```
+
+Frontend:
+
+```txt
+http://localhost:3000
+```
+
+Mock API:
+
+```txt
+http://localhost:3333
+```
+
+Parar containers:
+
+```bash
+docker compose down
+```
+
+Reconstruir imagens:
+
+```bash
+docker compose up --build
+```
+---
 # 🔮 Melhorias futuras
 
 - Favoritar hotéis
@@ -321,7 +404,6 @@ http://localhost:3000
 - PWA
 - Sentry
 - Testes automatizados
-- CI/CD
 
 ---
 
